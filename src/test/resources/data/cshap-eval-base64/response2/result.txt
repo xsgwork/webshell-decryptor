@@ -1,0 +1,62 @@
+FileRoot : C:\;D:\;
+CurrentDir : c:\windows\system32\inetsrv
+CurrentWebDir : D:\asp
+OsInfo : Microsoft Windows NT 10.0.26100.0
+CurrentUser : test
+ProcessArch : x64
+TempDirectory : C:\WINDOWS\TEMP\
+IPList : [fe80::69c7:c65d:137b:d536%14,10.11.35.119,fe80::98ce:60e5:713a:15eb%42,fe80::3763:dbbf:ec0b:c670%55,172.31.64.1,172.26.208.1]
+TickCount : 37842328
+ExitCode : 0
+CommandLine : c:\windows\system32\inetsrv\w3wp.exe -ap "test" -v "v4.0" -l "webengine4.dll" -a \\.\pipe\iisipm8883d7a6-8b7d-4371-967b-a3c1f25c3306 -h "C:\inetpub\temp\apppools\test\test.config" -w "" -m 0 -t 20 -ta 0
+CurrentDirectory : c:\windows\system32\inetsrv
+SystemDirectory : C:\WINDOWS\system32
+MachineName : AH-202504050623
+ProcessorCount : 16
+SystemPageSize : 4096
+Version : 4.0.30319.42000
+WorkingSet : 93118464
+OSVersion : Microsoft Windows NT 10.0.26100.0
+Is64BitProcess : True
+Is64BitOperatingSystem : True
+HasShutdownStarted : False
+UserName : test
+UserInteractive : False
+UserDomainName : IIS APPPOOL
+CurrentManagedThreadId : 75
+COMPUTERNAME : AH-202504050623
+PUBLIC : C:\Users\Public
+LOCALAPPDATA : C:\WINDOWS\system32\config\systemprofile\AppData\Local
+PSModulePath : C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+PROCESSOR_ARCHITECTURE : AMD64
+Path : C:\Python313\Scripts\;C:\Python313\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files\Java\jdk-17\bin;C:\WINDOWS\system32\config\systemprofile\AppData\Local\Microsoft\WindowsApps
+CommonProgramFiles(x86) : C:\Program Files (x86)\Common Files
+ProgramFiles(x86) : C:\Program Files (x86)
+PROCESSOR_LEVEL : 6
+ProgramFiles : C:\Program Files
+PATHEXT : .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.PY;.PYW
+USERPROFILE : C:\WINDOWS\system32\config\systemprofile
+SystemRoot : C:\WINDOWS
+ChocolateyInstall : C:\ProgramData\chocolatey
+APP_POOL_ID : test
+ALLUSERSPROFILE : C:\ProgramData
+DriverData : C:\Windows\System32\Drivers\DriverData
+APP_POOL_CONFIG : C:\inetpub\temp\apppools\test\test.config
+PROCESSOR_REVISION : ba02
+USERNAME : AH-202504050623$
+CommonProgramW6432 : C:\Program Files\Common Files
+CommonProgramFiles : C:\Program Files\Common Files
+OS : Windows_NT
+PROCESSOR_IDENTIFIER : Intel64 Family 6 Model 186 Stepping 2, GenuineIntel
+ComSpec : C:\WINDOWS\system32\cmd.exe
+USERDOMAIN : WorkGroup
+SystemDrive : C:
+TEMP : C:\WINDOWS\TEMP
+NUMBER_OF_PROCESSORS : 16
+APPDATA : C:\WINDOWS\system32\config\systemprofile\AppData\Roaming
+TMP : C:\WINDOWS\TEMP
+ProgramData : C:\ProgramData
+ProgramW6432 : C:\Program Files
+windir : C:\WINDOWS
+JAVA_HOME : C:\Program Files\Java\jdk-17
+ZES_ENABLE_SYSMAN : 1

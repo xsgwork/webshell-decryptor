@@ -1,0 +1,44 @@
+OsInfo : Linux 9f88e4236d62 5.15.167.4-microsoft-standard-WSL2 #1 SMP Tue Nov 5 00:21:55 UTC 2024 x86_64
+CurrentUser : www-data
+REMOTE_ADDR : 172.17.0.1
+REMOTE_PORT : 58756
+HTTP_X_FORWARDED_FOR : 
+HTTP_CLIENT_IP : 
+SERVER_ADDR : 172.17.0.3
+SERVER_NAME : 127.0.0.1
+SERVER_PORT : 8085
+disable_functions : pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,
+Open_basedir : 
+timezone : 
+encode : ISO-8859-15
+extension_dir : /usr/local/lib/php/extensions/no-debug-non-zts-20121212
+systempdir : /tmp/
+include_path : .:/usr/local/lib/php
+DOCUMENT_ROOT : /var/www/html
+PHP_SAPI : apache2handler
+PHP_VERSION : 5.5.38
+PHP_INT_SIZE : 8
+ProcessArch : x64
+PHP_OS : Linux
+canCallGzipDecode : 1
+canCallGzipEncode : 1
+session_name : PHPSESSID
+session_save_path : 
+session_save_handler : files
+session_serialize_handler : php
+user_ini_filename : .user.ini
+memory_limit : 128M
+upload_max_filesize : 2M
+post_max_size : 8M
+max_execution_time : 0
+max_input_time : 60
+default_socket_timeout : 60
+mygid : 33
+mypid : 10
+SERVER_SOFTWAREypid : Apache/2.4.10 (Debian)
+loaded_extensions : Core,date,ereg,libxml,openssl,pcre,sqlite3,zlib,ctype,curl,dom,fileinfo,filter,ftp,hash,iconv,json,mbstring,SPL,PDO,session,posix,Reflection,standard,SimpleXML,pdo_sqlite,Phar,tokenizer,xml,xmlreader,xmlwriter,mysqlnd,apache2handler,exif,gd
+short_open_tag : false
+asp_tags : false
+safe_mode : false
+CurrentDir : /var/www/html/upload
+FileRoot : /

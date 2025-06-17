@@ -1,0 +1,103 @@
+CurrentDir : D:\asp\
+OsInfo : Windows_NT
+CurrentUser : 
+FileRoot : C:/;D:/;
+scriptengine : VBScript/5.8.16384
+systemTime : 2025/6/12 10:08:22
+ChocolateyInstall=C:\ProgramData\chocolatey
+ComSpec=%SystemRoot%\system32\cmd.exe
+DriverData=C:\Windows\System32\Drivers\DriverData
+JAVA_HOME=C:\Program Files\Java\jdk-17
+NUMBER_OF_PROCESSORS=16
+OS=Windows_NT
+Path=C:\Python313\Scripts\;C:\Python313\;%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\;%SYSTEMROOT%\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Docker\Docker\resources\bin;%JAVA_HOME%\bin;
+PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.PY;.PYW
+PROCESSOR_ARCHITECTURE=AMD64
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 186 Stepping 2, GenuineIntel
+PROCESSOR_LEVEL=6
+PROCESSOR_REVISION=ba02
+PSModulePath=%ProgramFiles%\WindowsPowerShell\Modules;%SystemRoot%\system32\WindowsPowerShell\v1.0\Modules
+TEMP=%SystemRoot%\TEMP
+TMP=%SystemRoot%\TEMP
+USERNAME=SYSTEM
+windir=%SystemRoot%
+ZES_ENABLE_SYSMAN=1
+ALL_HTTP : HTTP_CONNECTION:close
+HTTP_CONTENT_LENGTH:51
+HTTP_CONTENT_TYPE:application/x-www-form-urlencoded
+HTTP_ACCEPT:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+HTTP_ACCEPT_LANGUAGE:zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+HTTP_COOKIE:ASPSESSIONIDQCRRDACD=OPALELBBIDDOEMBEONFKHNFF;
+HTTP_HOST:127.0.0.1:8090
+HTTP_USER_AGENT:Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0
+
+ALL_RAW : Connection: close
+Content-Length: 51
+Content-Type: application/x-www-form-urlencoded
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Cookie: ASPSESSIONIDQCRRDACD=OPALELBBIDDOEMBEONFKHNFF;
+Host: 127.0.0.1:8090
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0
+
+APPL_MD_PATH : /LM/W3SVC/1/ROOT
+APPL_PHYSICAL_PATH : D:\asp\
+AUTH_PASSWORD : 
+AUTH_TYPE : 
+AUTH_USER : 
+CERT_COOKIE : 
+CERT_FLAGS : 
+CERT_ISSUER : 
+CERT_KEYSIZE : 
+CERT_SECRETKEYSIZE : 
+CERT_SERIALNUMBER : 
+CERT_SERVER_ISSUER : 
+CERT_SERVER_SUBJECT : 
+CERT_SUBJECT : 
+CONTENT_LENGTH : 51
+CONTENT_TYPE : application/x-www-form-urlencoded
+GATEWAY_INTERFACE : CGI/1.1
+HTTPS : off
+HTTPS_KEYSIZE : 
+HTTPS_SECRETKEYSIZE : 
+HTTPS_SERVER_ISSUER : 
+HTTPS_SERVER_SUBJECT : 
+INSTANCE_ID : 1
+INSTANCE_META_PATH : /LM/W3SVC/1
+LOCAL_ADDR : 127.0.0.1
+LOGON_USER : 
+PATH_INFO : /xorbase64.asp
+PATH_TRANSLATED : D:\asp\xorbase64.asp
+QUERY_STRING : 
+REMOTE_ADDR : 127.0.0.1
+REMOTE_HOST : 127.0.0.1
+REMOTE_USER : 
+REQUEST_METHOD : POST
+SCRIPT_NAME : /xorbase64.asp
+SERVER_NAME : 127.0.0.1
+SERVER_PORT : 8090
+SERVER_PORT_SECURE : 0
+SERVER_PROTOCOL : HTTP/1.1
+SERVER_SOFTWARE : Microsoft-IIS/10.0
+URL : /xorbase64.asp
+HTTP_CONNECTION : close
+HTTP_CONTENT_LENGTH : 51
+HTTP_CONTENT_TYPE : application/x-www-form-urlencoded
+HTTP_ACCEPT : text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+HTTP_ACCEPT_LANGUAGE : zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+HTTP_COOKIE : ASPSESSIONIDQCRRDACD=OPALELBBIDDOEMBEONFKHNFF;
+HTTP_HOST : 127.0.0.1:8090
+HTTP_USER_AGENT : Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0
+SystemRoot : C:\WINDOWS
+WinDir : C:\WINDOWS
+ComSpec : C:\WINDOWS\system32\cmd.exe
+TEMP : C:\WINDOWS\TEMP
+TMP : C:\WINDOWS\TEMP
+NUMBER_OF_PROCESSORS : 16
+OS : Windows_NT
+Os2LibPath : %Os2LibPath%
+PATHEXT : .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.PY;.PYW
+PROCESSOR_ARCHITECTURE : AMD64
+PROCESSOR_IDENTIFIER : Intel64 Family 6 Model 186 Stepping 2, GenuineIntel
+PROCESSOR_LEVEL : 6
+PROCESSOR_REVISION : ba02

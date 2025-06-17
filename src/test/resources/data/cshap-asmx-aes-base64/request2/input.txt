@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <pass xmlns="http://tempuri.org/">
+      <pass>thY0CObTjWO0SH1g455FAJi9EOO%2Fpm3XeNyU27WjtHlR71XTx9pEYb3bFJvcbFct</pass>
+    </pass>
+  </soap:Body>
+</soap:Envelope>
