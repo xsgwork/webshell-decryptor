@@ -1,10 +1,8 @@
 package com.xsg.decryptor.godzilla.v1;
 
 import com.xsg.decryptor.godzilla.v1.enums.GodzillaV1DecryptorType;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.Test;
 
-@SpringBootTest
 public class CShapAesRawDecryptorTest extends BaseDecryptorTest {
 
     @Override

@@ -1,10 +1,8 @@
 package com.xsg.decryptor.godzilla.v3;
 
 import com.xsg.decryptor.godzilla.v3.enums.GodzillaV3DecryptorType;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.Test;
 
-@SpringBootTest
 public class AspBase64DecryptorTest extends BaseDecryptorTest {
 
     @Override

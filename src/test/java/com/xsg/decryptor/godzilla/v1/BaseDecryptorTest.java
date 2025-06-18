@@ -3,13 +3,11 @@ package com.xsg.decryptor.godzilla.v1;
 import cn.hutool.core.io.IoUtil;
 import com.xsg.decryptor.godzilla.v1.core.base.GodzillaV1Decryptor;
 import com.xsg.decryptor.godzilla.v1.enums.GodzillaV1DecryptorType;
-import org.springframework.core.io.ClassPathResource;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 public abstract class BaseDecryptorTest {
 
@@ -27,13 +25,11 @@ public abstract class BaseDecryptorTest {
     protected abstract String getTestDataPrefix();
 
     protected String readData(String filePath) {
-        try {
-            ClassPathResource resource = new ClassPathResource(filePath);
-            InputStream inputStream = resource.getInputStream();
-            return IoUtil.read(inputStream, StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to read test input from: " + filePath, e);
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(filePath);
+        if (inputStream == null) {
+            throw new RuntimeException("Resource not found: " + filePath);
         }
+        return IoUtil.read(inputStream, StandardCharsets.UTF_8);
     }
 
     /**
