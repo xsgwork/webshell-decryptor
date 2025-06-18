@@ -1,6 +1,7 @@
 package com.xsg.decryptor.godzilla.v3;
 
 import cn.hutool.core.io.IoUtil;
+import com.xsg.decryptor.WebshellDecryptorFacade;
 import com.xsg.decryptor.godzilla.v3.core.base.GodzillaV3Decryptor;
 import com.xsg.decryptor.godzilla.v3.enums.GodzillaV3DecryptorType;
 
@@ -14,7 +15,7 @@ public abstract class BaseDecryptorTest {
     protected static final String PASSWORD = "pass";
     protected static final String KEY = "3c6e0b8a9c15224a";
 
-    protected GodzillaV3Decryptor DECRYPTOR = GodzillaV3DecryptorType.getDecryptor(getDecryptorType());
+    protected GodzillaV3Decryptor DECRYPTOR = WebshellDecryptorFacade.decryptGodzillaV3(getDecryptorType());
 
     protected abstract GodzillaV3DecryptorType getDecryptorType();
 
