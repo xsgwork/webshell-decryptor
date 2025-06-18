@@ -5,9 +5,6 @@ import cn.hutool.core.util.StrUtil;
 /**
  * 字符串内容提取工具类
  * 
- * 提供从字符串中提取特定模式内容的功能，
- * 主要用于从Webshell流量中提取加密数据。
- * 
  * @author xsg
  * @version 1.0.0
  */

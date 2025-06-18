@@ -11,7 +11,7 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * 解码和解密工具类
- * 
+ *
  * 提供各种常用的解码和解密功能，包括：
  * - URL解码
  * - Base64解码
@@ -19,7 +19,7 @@ import java.nio.charset.StandardCharsets;
  * - XOR解密
  * - 十六进制解码
  * - 数据反序列化
- * 
+ *
  * @author xsg
  * @version 1.0.0
  */
@@ -27,9 +27,9 @@ public class DecodeUtil {
 
     /**
      * URL解码
-     * 
+     *
      * 使用UTF-8字符集对URL编码的字符串进行解码
-     * 
+     *
      * @param data 需要解码的URL编码字符串
      * @return 解码后的字符串
      */
@@ -39,9 +39,9 @@ public class DecodeUtil {
 
     /**
      * Base64解码
-     * 
+     *
      * 将Base64编码的字符串解码为字节数组
-     * 
+     *
      * @param data Base64编码的字符串
      * @return 解码后的字节数组
      */
@@ -51,11 +51,11 @@ public class DecodeUtil {
 
     /**
      * AES-ECB模式解密
-     * 
+     *
      * 使用AES算法的ECB模式和PKCS5填充进行解密
-     * 
+     *
      * @param base64Data 需要解密的字节数组
-     * @param key 解密密钥
+     * @param key        解密密钥
      * @return 解密后的字节数组
      */
     public static byte[] aesDecrypt(byte[] base64Data, String key) {
@@ -65,13 +65,13 @@ public class DecodeUtil {
 
     /**
      * AES-CBC模式解密（C#风格）
-     * 
+     *
      * 使用AES算法的CBC模式和PKCS5填充进行解密，
      * 适用于C#生成的加密数据
-     * 
+     *
      * @param base64Data 需要解密的字节数组
-     * @param key 解密密钥
-     * @param iv 初始化向量
+     * @param key        解密密钥
+     * @param iv         初始化向量
      * @return 解密后的字节数组
      */
     public static byte[] cshapAesDecrypt(byte[] base64Data, String key, String iv) {
@@ -81,12 +81,12 @@ public class DecodeUtil {
 
     /**
      * XOR解密
-     * 
+     *
      * 使用XOR算法对加密数据进行解密。
      * 密钥循环使用，每16个字节重复一次。
-     * 
+     *
      * @param encryptedData 加密的字节数组
-     * @param key 解密密钥字节数组
+     * @param key           解密密钥字节数组
      * @return 解密后的字节数组
      */
     public static byte[] xorDecode(byte[] encryptedData, byte[] key) {
@@ -99,9 +99,9 @@ public class DecodeUtil {
 
     /**
      * 十六进制字符串解码
-     * 
+     *
      * 将十六进制字符串解码为普通字符串
-     * 
+     *
      * @param hexStr 十六进制字符串
      * @return 解码后的字符串
      */
@@ -110,21 +110,21 @@ public class DecodeUtil {
     }
 
     /**
-     * 数据反序列化
-     * 
+     * 哥斯拉V3版本数据反序列化
+     *
      * 将序列化的字节数组反序列化为可读的字符串格式。
      * 数据格式：key + 分隔符(2) + value长度(4字节) + value内容
-     * 
+     *
      * 解析规则：
      * 1. 读取key直到遇到字节值2（分隔符）
      * 2. 读取4字节的value长度信息
      * 3. 根据长度读取value内容
      * 4. 重复上述过程直到数据结束
-     * 
+     *
      * @param data 需要反序列化的字节数组
      * @return 反序列化后的字符串，格式为"key=value\n"
      */
-    public static String deserialize(byte[] data) {
+    public static String godzillaV3Deserialize(byte[] data) {
         try {
             StringBuilder result = new StringBuilder();
             int offset = 0;
@@ -180,6 +180,31 @@ public class DecodeUtil {
         } catch (Exception e) {
             // 如果解析失败，返回原始字符串
             return new String(data, StandardCharsets.UTF_8);
+        }
+    }
+
+    /**
+     * 哥斯拉V1版本数据反序列化
+     *
+     * @param data 需要反序列化的字节数组
+     * @return 反序列化后的字符串
+     */
+    public static String godzillaV1Deserialize(byte[] data) {
+        String result = new String(data, StandardCharsets.UTF_8);
+        // 检查是否包含methodName=
+        if (!result.contains("methodName=")) {
+            return result;
+        }
+
+        try {
+            // 获取methodName=之后的所有内容
+            String value = result.replace("methodName=", "");
+            byte[] decodedBytes = base64Decode(value);
+            String decodedValue = new String(decodedBytes, StandardCharsets.UTF_8);
+            return "methodName=" + decodedValue;
+        } catch (Exception e) {
+            // 如果解码失败，返回原始字符串
+            return result;
         }
     }
 }

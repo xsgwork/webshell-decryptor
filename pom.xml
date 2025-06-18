@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.xsg</groupId>
     <artifactId>webshell-decryptor</artifactId>
-    <version>1.0.0.RELEASE</version>
+    <version>1.0.0</version>
     <name>webshell-decryptor</name>
     <description>A comprehensive webshell traffic decryption tool supporting multiple encryption algorithms and webshell types including Godzilla, Behinder, and custom implementations</description>
     <url>https://github.com/xsgwork/webshell-decryptor</url>
