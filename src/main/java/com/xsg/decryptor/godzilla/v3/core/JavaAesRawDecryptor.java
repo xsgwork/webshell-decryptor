@@ -1,13 +1,22 @@
 package com.xsg.decryptor.godzilla.v3.core;
 
 import com.xsg.decryptor.godzilla.v3.core.base.AbstractRawDecryptor;
+import com.xsg.decryptor.util.ByteTypeUtil;
 import com.xsg.decryptor.util.DecodeUtil;
+import com.xsg.decryptor.util.JavaDecompileUtil;
+
+import java.nio.charset.StandardCharsets;
 
 public class JavaAesRawDecryptor extends AbstractRawDecryptor {
 
     @Override
     protected byte[] doDecryptRequest(byte[] encryptedData, String password, String key) {
-        return DecodeUtil.aesDecrypt(encryptedData, key);
+        byte[] decryptedBytes = DecodeUtil.aesDecrypt(encryptedData, key);
+        // Java字节码处理
+        if (ByteTypeUtil.isJavaClassFile(decryptedBytes)) {
+            return JavaDecompileUtil.decompileBytes(decryptedBytes).getBytes(StandardCharsets.UTF_8);
+        }
+        return decryptedBytes;
     }
 
     @Override

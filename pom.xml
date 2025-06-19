@@ -34,6 +34,12 @@
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
+        <!-- CFR Java反编译器 -->
+        <dependency>
+            <groupId>org.benf</groupId>
+            <artifactId>cfr</artifactId>
+            <version>0.152</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -3,6 +3,9 @@ package com.xsg.decryptor.godzilla.v1.core;
 import com.xsg.decryptor.godzilla.v1.core.base.AbstractBase64Decryptor;
 import com.xsg.decryptor.util.ByteTypeUtil;
 import com.xsg.decryptor.util.DecodeUtil;
+import com.xsg.decryptor.util.JavaDecompileUtil;
+
+import java.nio.charset.StandardCharsets;
 
 public class JavaAesBase64Decryptor extends AbstractBase64Decryptor {
 
@@ -11,7 +14,7 @@ public class JavaAesBase64Decryptor extends AbstractBase64Decryptor {
         byte[] decryptedBytes = DecodeUtil.aesDecrypt(encryptedData, key);
         // Java字节码处理
         if (ByteTypeUtil.isJavaClassFile(decryptedBytes)) {
-            // todo 输出反编译后的结果
+            return JavaDecompileUtil.decompileBytes(decryptedBytes).getBytes(StandardCharsets.UTF_8);
         }
         return decryptedBytes;
     }
