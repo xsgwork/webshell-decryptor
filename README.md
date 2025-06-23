@@ -48,6 +48,19 @@
 
 ## 快速使用
 
+### Maven依赖
+
+在你的项目中添加以下Maven依赖：
+
+```xml
+<dependency>
+    <groupId>io.github.xsgwork</groupId>
+    <artifactId>webshell-decryptor</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+### 使用示例
 
 ```java
 public class DecryptExample {
