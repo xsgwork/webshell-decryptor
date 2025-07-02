@@ -1,5 +1,7 @@
 package io.github.xsgwork.decryptor;
 
+import io.github.xsgwork.decryptor.behinder.v1.core.base.BehinderV1Decryptor;
+import io.github.xsgwork.decryptor.behinder.v1.enums.BehinderV1DecryptorType;
 import io.github.xsgwork.decryptor.godzilla.v1.core.base.GodzillaV1Decryptor;
 import io.github.xsgwork.decryptor.godzilla.v1.enums.GodzillaV1DecryptorType;
 import io.github.xsgwork.decryptor.godzilla.v3.core.base.GodzillaV3Decryptor;
@@ -23,5 +25,12 @@ public class WebshellDecryptorFacade {
      */
     public static GodzillaV3Decryptor decryptGodzillaV3(GodzillaV3DecryptorType type) {
         return GodzillaV3DecryptorType.getDecryptor(type);
+    }
+
+    /**
+     * 冰蝎1.x~3.x版本流量解密
+     */
+    public static BehinderV1Decryptor decryptBehinderV1(BehinderV1DecryptorType type) {
+        return BehinderV1DecryptorType.getDecryptor(type);
     }
 }

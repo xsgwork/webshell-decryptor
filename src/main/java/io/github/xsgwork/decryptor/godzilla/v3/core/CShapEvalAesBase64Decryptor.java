@@ -35,6 +35,6 @@ public class CShapEvalAesBase64Decryptor extends AbstractBase64Decryptor {
 
     @Override
     protected byte[] doDecryptResponse(byte[] encryptedData, String password, String key) {
-        return DecodeUtil.cshapAesDecrypt(encryptedData, key, key);
+        return DecodeUtil.aesCbcDecrypt(encryptedData, key, key);
     }
 }

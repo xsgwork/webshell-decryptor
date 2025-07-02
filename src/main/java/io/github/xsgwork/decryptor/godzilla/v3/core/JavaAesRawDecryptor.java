@@ -11,7 +11,7 @@ public class JavaAesRawDecryptor extends AbstractRawDecryptor {
 
     @Override
     protected byte[] doDecryptRequest(byte[] encryptedData, String password, String key) {
-        byte[] decryptedBytes = DecodeUtil.aesDecrypt(encryptedData, key);
+        byte[] decryptedBytes = DecodeUtil.aesEcbDecrypt(encryptedData, key);
         // Java字节码处理
         if (ByteTypeUtil.isJavaClassFile(decryptedBytes)) {
             return JavaDecompileUtil.decompileBytes(decryptedBytes).getBytes(StandardCharsets.UTF_8);
@@ -21,6 +21,6 @@ public class JavaAesRawDecryptor extends AbstractRawDecryptor {
 
     @Override
     protected byte[] doDecryptResponse(byte[] encryptedData, String password, String key) {
-        return DecodeUtil.aesDecrypt(encryptedData, key);
+        return DecodeUtil.aesEcbDecrypt(encryptedData, key);
     }
 }

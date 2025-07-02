@@ -1,6 +1,7 @@
 package io.github.xsgwork.decryptor.godzilla.v1.core.base;
 
 import io.github.xsgwork.decryptor.util.DecodeUtil;
+import io.github.xsgwork.decryptor.util.GodzillaResultUtil;
 
 import java.nio.charset.StandardCharsets;
 
@@ -18,7 +19,7 @@ public abstract class AbstractBase64Decryptor implements GodzillaV1Decryptor {
             // 执行具体的解密算法
             byte[] decryptedBytes = doDecryptRequest(base64DecodedData, password, key);
             // 反序列化
-            return DecodeUtil.godzillaV1Deserialize(decryptedBytes);
+            return GodzillaResultUtil.godzillaV1Deserialize(decryptedBytes);
         } catch (Exception e) {
             throw new RuntimeException("请求包解密失败", e);
         }

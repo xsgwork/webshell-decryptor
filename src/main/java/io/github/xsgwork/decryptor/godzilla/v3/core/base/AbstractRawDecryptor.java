@@ -4,6 +4,7 @@ import cn.hutool.core.util.HexUtil;
 import cn.hutool.core.util.ZipUtil;
 import io.github.xsgwork.decryptor.util.ByteTypeUtil;
 import io.github.xsgwork.decryptor.util.DecodeUtil;
+import io.github.xsgwork.decryptor.util.GodzillaResultUtil;
 
 import java.nio.charset.StandardCharsets;
 
@@ -19,9 +20,9 @@ public abstract class AbstractRawDecryptor implements GodzillaV3Decryptor {
             // GZIP解压缩：检查并处理压缩数据
             if (ByteTypeUtil.isGzipFormat(decryptedBytes)) {
                 byte[] decompressedBytes = ZipUtil.unGzip(decryptedBytes);
-                return DecodeUtil.godzillaV3Deserialize(decompressedBytes);
+                return GodzillaResultUtil.godzillaV3Deserialize(decompressedBytes);
             }
-            return DecodeUtil.godzillaV3Deserialize(decryptedBytes);
+            return GodzillaResultUtil.godzillaV3Deserialize(decryptedBytes);
         } catch (Exception e) {
             throw new RuntimeException("请求包解密失败", e);
         }
