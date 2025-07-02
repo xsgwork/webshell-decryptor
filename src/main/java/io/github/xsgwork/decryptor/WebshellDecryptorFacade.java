@@ -4,8 +4,8 @@ import io.github.xsgwork.decryptor.behinder.v1.core.base.BehinderV1Decryptor;
 import io.github.xsgwork.decryptor.behinder.v1.enums.BehinderV1DecryptorType;
 import io.github.xsgwork.decryptor.godzilla.v1.core.base.GodzillaV1Decryptor;
 import io.github.xsgwork.decryptor.godzilla.v1.enums.GodzillaV1DecryptorType;
-import io.github.xsgwork.decryptor.godzilla.v3.core.base.GodzillaV3Decryptor;
-import io.github.xsgwork.decryptor.godzilla.v3.enums.GodzillaV3DecryptorType;
+import io.github.xsgwork.decryptor.godzilla.v2.core.base.GodzillaV2Decryptor;
+import io.github.xsgwork.decryptor.godzilla.v2.enums.GodzillaV2DecryptorType;
 
 /**
  * Webshell解密工具主入口类
@@ -23,8 +23,8 @@ public class WebshellDecryptorFacade {
     /**
      * 哥斯拉3.x~4.x版本流量解密
      */
-    public static GodzillaV3Decryptor decryptGodzillaV3(GodzillaV3DecryptorType type) {
-        return GodzillaV3DecryptorType.getDecryptor(type);
+    public static GodzillaV2Decryptor decryptGodzillaV2(GodzillaV2DecryptorType type) {
+        return GodzillaV2DecryptorType.getDecryptor(type);
     }
 
     /**
