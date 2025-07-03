@@ -87,16 +87,16 @@ public class DecryptExample {
         String godzillaData = "your_godzilla_encrypted_data_here";
         String godzillaPassword = "your_godzilla_password_here";
         String godzillaKey = "your_godzilla_key_here";
-        
-        GodzillaV3Decryptor godzillaDecryptor = WebshellDecryptorFacade.decryptGodzillaV3(GodzillaV3DecryptorType.PHP_XOR_BASE64);
+
+        GodzillaV2Decryptor godzillaDecryptor = WebshellDecryptorFacade.godzillaV2(GodzillaV2DecryptorType.PHP_XOR_BASE64);
         String godzillaResult = godzillaDecryptor.decryptRequest(godzillaData, godzillaPassword, godzillaKey);
         System.out.println("哥斯拉解密结果: " + godzillaResult);
-        
+
         // 示例2：解密冰蝎4.x版本的AES加密数据
         String behinderData = "your_behinder_encrypted_data_here";
         String behinderPassword = "your_behinder_password_here";
-        
-        BehinderV2Decryptor behinderDecryptor = WebshellDecryptorFacade.decryptBehinderV2(BehinderV2DecryptorType.AES);
+
+        BehinderV2Decryptor behinderDecryptor = WebshellDecryptorFacade.behinderV2(BehinderV2DecryptorType.AES);
         String behinderResult = behinderDecryptor.decrypt(behinderData, behinderPassword);
         System.out.println("冰蝎解密结果: " + behinderResult);
     }
