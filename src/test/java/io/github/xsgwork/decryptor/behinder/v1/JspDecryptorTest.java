@@ -1,6 +1,5 @@
 package io.github.xsgwork.decryptor.behinder.v1;
 
-import io.github.xsgwork.decryptor.behinder.v1.enums.BehinderV1DecryptorType;
 import org.junit.Test;
 
 public class JspDecryptorTest extends BaseDecryptorTest{

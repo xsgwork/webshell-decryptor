@@ -3,7 +3,6 @@ package io.github.xsgwork.decryptor.godzilla.v2;
 import cn.hutool.core.io.IoUtil;
 import io.github.xsgwork.decryptor.WebshellDecryptorFacade;
 import io.github.xsgwork.decryptor.godzilla.v2.core.base.GodzillaV2Decryptor;
-import io.github.xsgwork.decryptor.godzilla.v2.enums.GodzillaV2DecryptorType;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -15,7 +14,7 @@ public abstract class BaseDecryptorTest {
     protected static final String PASSWORD = "pass";
     protected static final String KEY = "3c6e0b8a9c15224a";
 
-    protected GodzillaV2Decryptor DECRYPTOR = WebshellDecryptorFacade.decryptGodzillaV2(getDecryptorType());
+    protected GodzillaV2Decryptor DECRYPTOR = WebshellDecryptorFacade.godzillaV2(getDecryptorType());
 
     protected abstract GodzillaV2DecryptorType getDecryptorType();
 

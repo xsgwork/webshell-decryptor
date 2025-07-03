@@ -1,7 +1,6 @@
 package io.github.xsgwork.decryptor.util;
 
 import cn.hutool.core.codec.Base64;
-import cn.hutool.core.util.HexUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.crypto.Mode;
 import cn.hutool.crypto.Padding;
@@ -95,17 +94,5 @@ public class DecodeUtil {
             encryptedData[i] = (byte) (encryptedData[i] ^ key[(i + 1) & 15]);
         }
         return encryptedData;
-    }
-
-    /**
-     * 十六进制字符串解码
-     *
-     * 将十六进制字符串解码为普通字符串
-     *
-     * @param hexStr 十六进制字符串
-     * @return 解码后的字符串
-     */
-    public static String decodeHex(String hexStr) {
-        return HexUtil.decodeHexStr(hexStr);
     }
 }

@@ -1,6 +1,5 @@
 package io.github.xsgwork.decryptor.godzilla.v1;
 
-import io.github.xsgwork.decryptor.godzilla.v1.enums.GodzillaV1DecryptorType;
 import org.junit.Test;
 
 public class JavaAesRawDecryptorTest extends BaseDecryptorTest {

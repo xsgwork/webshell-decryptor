@@ -1,6 +1,5 @@
 package io.github.xsgwork.decryptor.godzilla.v2;
 
-import io.github.xsgwork.decryptor.godzilla.v2.enums.GodzillaV2DecryptorType;
 import org.junit.Test;
 
 public class AspXorBase64DecryptorTest extends BaseDecryptorTest {

