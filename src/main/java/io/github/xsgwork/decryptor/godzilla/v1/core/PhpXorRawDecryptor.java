@@ -9,13 +9,13 @@ public class PhpXorRawDecryptor extends AbstractRawDecryptor {
 
     @Override
     protected byte[] doDecryptRequest(byte[] encryptedData, String password, String key) {
-        byte[] data = DecodeUtil.xorDecode(encryptedData, key.getBytes(StandardCharsets.UTF_8));
-        return DecodeUtil.base64Decode(new String(data, StandardCharsets.UTF_8));
+        String data = DecodeUtil.xorDecodeString(encryptedData, key.getBytes(StandardCharsets.UTF_8));
+        return DecodeUtil.base64Decode(data);
     }
 
     @Override
     protected byte[] doDecryptResponse(byte[] encryptedData, String password, String key) {
-        byte[] data = DecodeUtil.xorDecode(encryptedData, key.getBytes(StandardCharsets.UTF_8));
-        return DecodeUtil.base64Decode(new String(data, StandardCharsets.UTF_8));
+        String data = DecodeUtil.xorDecodeString(encryptedData, key.getBytes(StandardCharsets.UTF_8));
+        return DecodeUtil.base64Decode(data);
     }
 }

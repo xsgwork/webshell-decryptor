@@ -1,6 +1,8 @@
 package io.github.xsgwork.decryptor.util;
 
 import cn.hutool.core.codec.Base64;
+import cn.hutool.core.text.UnicodeUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.crypto.Mode;
 import cn.hutool.crypto.Padding;
@@ -49,7 +51,7 @@ public class DecodeUtil {
     }
 
     public static String base64DecodeString(String data) {
-        return new String(base64Decode(data), StandardCharsets.UTF_8);
+        return Base64.decodeStr(data);
     }
 
     /**
@@ -98,5 +100,13 @@ public class DecodeUtil {
             encryptedData[i] = (byte) (encryptedData[i] ^ key[(i + 1) & 15]);
         }
         return encryptedData;
+    }
+
+    public static String xorDecodeString(byte[] encryptedData, byte[] key) {
+        int len = encryptedData.length;
+        for (int i = 0; i < len; i++) {
+            encryptedData[i] = (byte) (encryptedData[i] ^ key[(i + 1) & 15]);
+        }
+        return new String(encryptedData, StandardCharsets.UTF_8);
     }
 }

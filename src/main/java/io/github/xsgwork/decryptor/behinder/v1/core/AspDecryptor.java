@@ -15,8 +15,7 @@ public class AspDecryptor implements BehinderV1Decryptor {
             // 十六进制解码：将十六进制字符串转换为字节数组
             byte[] decodeHexBytes = HexUtil.decodeHex(encryptedData);
             // Xor解密
-            byte[] decryptedBytes = DecodeUtil.xorDecode(decodeHexBytes, key.getBytes(StandardCharsets.UTF_8));
-            String result = new String(decryptedBytes, StandardCharsets.UTF_8);
+            String result = DecodeUtil.xorDecodeString(decodeHexBytes, key.getBytes(StandardCharsets.UTF_8));
             return BehinderResultUtil.parseNestedJsonResponse(result);
         } catch (Exception e) {
             throw new RuntimeException("请求包解密失败", e);
