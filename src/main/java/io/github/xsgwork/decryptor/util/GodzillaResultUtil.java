@@ -20,8 +20,7 @@ public class GodzillaResultUtil {
         try {
             // 获取methodName=之后的所有内容
             String value = result.replace("methodName=", "");
-            byte[] decodedBytes = DecodeUtil.base64Decode(value);
-            String decodedValue = new String(decodedBytes, StandardCharsets.UTF_8);
+            String decodedValue = DecodeUtil.base64DecodeString(value);
             return "methodName=" + decodedValue;
         } catch (Exception e) {
             // 如果解码失败，返回原始字符串

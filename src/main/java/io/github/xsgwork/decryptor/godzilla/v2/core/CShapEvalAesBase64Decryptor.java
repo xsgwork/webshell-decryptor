@@ -5,8 +5,6 @@ import io.github.xsgwork.decryptor.godzilla.v2.core.base.AbstractBase64Decryptor
 import io.github.xsgwork.decryptor.util.DecodeUtil;
 import io.github.xsgwork.decryptor.util.StringExtractUtil;
 
-import java.nio.charset.StandardCharsets;
-
 public class CShapEvalAesBase64Decryptor extends AbstractBase64Decryptor {
 
     @Override
@@ -21,8 +19,7 @@ public class CShapEvalAesBase64Decryptor extends AbstractBase64Decryptor {
                 throw new IllegalArgumentException("数据格式错误，未提取到关键信息");
             }
             // base64解码
-            byte[] base64DecodedData = DecodeUtil.base64Decode(extractedData);
-            return new String(base64DecodedData, StandardCharsets.UTF_8);
+            return DecodeUtil.base64DecodeString(extractedData);
         } catch (Exception e) {
             throw new RuntimeException("请求包解密失败", e);
         }

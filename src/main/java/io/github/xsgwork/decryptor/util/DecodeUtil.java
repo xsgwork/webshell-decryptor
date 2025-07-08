@@ -48,6 +48,10 @@ public class DecodeUtil {
         return Base64.decode(data);
     }
 
+    public static String base64DecodeString(String data) {
+        return new String(base64Decode(data), StandardCharsets.UTF_8);
+    }
+
     /**
      * AES-ECB模式解密
      *

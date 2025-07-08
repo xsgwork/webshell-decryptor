@@ -19,7 +19,7 @@ public class PhpDecryptor implements BehinderV1Decryptor {
             String result = new String(decryptedBytes, StandardCharsets.UTF_8);
             if (result.startsWith("assert|eval(base64_decode('")) {
                 String extractedData = StringExtractUtil.extractContent(result, "assert|eval(base64_decode('", "'));");
-                return new String(DecodeUtil.base64Decode(extractedData), StandardCharsets.UTF_8);
+                return DecodeUtil.base64DecodeString(extractedData);
             }
             return BehinderResultUtil.parseNestedJsonResponse(result);
         } catch (Exception e) {

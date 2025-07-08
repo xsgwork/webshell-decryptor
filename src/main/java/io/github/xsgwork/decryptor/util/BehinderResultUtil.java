@@ -75,8 +75,7 @@ public class BehinderResultUtil {
      */
     private static String tryBase64Decode(String str) {
         try {
-            byte[] decoded = DecodeUtil.base64Decode(str);
-            return new String(decoded, StandardCharsets.UTF_8);
+            return DecodeUtil.base64DecodeString(str);
         } catch (Exception e) {
             return str;
         }

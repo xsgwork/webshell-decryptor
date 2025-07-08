@@ -23,8 +23,7 @@ public class PhpEvalXorBase64Decryptor extends AbstractBase64Decryptor {
             // 反转字符串
             String reversedData = StrUtil.reverse(extractedData);
             // base64解码
-            byte[] base64DecodedData = DecodeUtil.base64Decode(reversedData);
-            return new String(base64DecodedData, StandardCharsets.UTF_8);
+            return DecodeUtil.base64DecodeString(reversedData);
         } catch (Exception e) {
             throw new RuntimeException("请求包解密失败", e);
         }
