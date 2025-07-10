@@ -11,7 +11,7 @@ public class AspRawDecryptorTest extends BaseDecryptorTest {
 
     @Override
     protected String getTestDataPrefix() {
-        return "godzilla/v2/asp-raw";
+        return "godzilla/v2/asp_raw";
     }
 
     @Test

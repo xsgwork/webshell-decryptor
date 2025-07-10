@@ -11,7 +11,7 @@ public class JavaAesRawDecryptorTest extends BaseDecryptorTest {
 
     @Override
     protected String getTestDataPrefix() {
-        return "godzilla/v2/java-aes-raw";
+        return "godzilla/v2/java_aes_raw";
     }
 
     @Test

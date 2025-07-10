@@ -11,7 +11,7 @@ public class CShapEvalBase64DecryptorTest extends BaseDecryptorTest {
 
     @Override
     protected String getTestDataPrefix() {
-        return "godzilla/v2/cshap-eval-base64";
+        return "godzilla/v2/cshap_eval_base64";
     }
 
     @Test

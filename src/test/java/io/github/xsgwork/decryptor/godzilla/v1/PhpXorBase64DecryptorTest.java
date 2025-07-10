@@ -11,7 +11,7 @@ public class PhpXorBase64DecryptorTest extends BaseDecryptorTest {
 
     @Override
     protected String getTestDataPrefix() {
-        return "godzilla/v1/php-xor-base64";
+        return "godzilla/v1/php_xor_base64";
     }
 
     @Test

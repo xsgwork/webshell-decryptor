@@ -11,7 +11,7 @@ public class AspEvalBase64DecryptorTest extends BaseDecryptorTest {
 
     @Override
     protected String getTestDataPrefix() {
-        return "godzilla/v2/asp-eval-base64";
+        return "godzilla/v2/asp_eval_base64";
     }
 
     @Test
