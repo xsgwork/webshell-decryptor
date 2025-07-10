@@ -8,12 +8,12 @@ import java.nio.charset.StandardCharsets;
 public class PhpXorBase64Decryptor extends AbstractBase64Decryptor {
 
     @Override
-    protected byte[] doDecryptRequest(byte[] encryptedData, String password, String key) {
-        return DecodeUtil.xorDecode(encryptedData, key.getBytes(StandardCharsets.UTF_8));
+    protected byte[] doDecryptRequest(byte[] data, String key) {
+        return DecodeUtil.xorDecode(data, key.getBytes(StandardCharsets.UTF_8));
     }
 
     @Override
-    protected byte[] doDecryptResponse(byte[] encryptedData, String password, String key) {
-        return DecodeUtil.xorDecode(encryptedData, key.getBytes(StandardCharsets.UTF_8));
+    protected byte[] doDecryptResponse(byte[] data, String key) {
+        return DecodeUtil.xorDecode(data, key.getBytes(StandardCharsets.UTF_8));
     }
 }

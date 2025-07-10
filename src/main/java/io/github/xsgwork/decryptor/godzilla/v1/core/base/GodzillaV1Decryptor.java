@@ -14,22 +14,20 @@ public interface GodzillaV1Decryptor {
     /**
      * 解密请求包数据
      * 
-     * @param encryptedData 加密的请求数据
-     * @param password 解密密码
+     * @param data 加密的请求数据
      * @param key 解密密钥
      * @return 解密后的明文数据
      * @throws RuntimeException 当解密失败时抛出异常
      */
-    String decryptRequest(String encryptedData, String password, String key);
+    String decryptRequest(String data, String key);
 
     /**
      * 解密响应包数据
      * 
-     * @param encryptedData 加密的响应数据
-     * @param password 解密密码
+     * @param data 加密的响应数据
      * @param key 解密密钥
      * @return 解密后的明文数据
      * @throws RuntimeException 当解密失败时抛出异常
      */
-    String decryptResponse(String encryptedData, String password, String key);
+    String decryptResponse(String data, String key);
 }

@@ -6,12 +6,12 @@ import io.github.xsgwork.decryptor.util.DecodeUtil;
 public class CShapAesRawDecryptor extends AbstractRawDecryptor {
 
     @Override
-    protected byte[] doDecryptRequest(byte[] encryptedData, String password, String key) {
-        return DecodeUtil.aesCbcDecrypt(encryptedData, key, key);
+    protected byte[] doDecryptRequest(byte[] data, String key) {
+        return DecodeUtil.aesCbcDecrypt(data, key, key);
     }
 
     @Override
-    protected byte[] doDecryptResponse(byte[] encryptedData, String password, String key) {
-        return DecodeUtil.aesCbcDecrypt(encryptedData, key, key);
+    protected byte[] doDecryptResponse(byte[] data, String key) {
+        return DecodeUtil.aesCbcDecrypt(data, key, key);
     }
 }

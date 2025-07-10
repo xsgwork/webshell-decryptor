@@ -11,7 +11,6 @@ import static org.junit.Assert.assertEquals;
 
 public abstract class BaseDecryptorTest {
 
-    protected static final String PASSWORD = "pass";
     protected static final String KEY = "3c6e0b8a9c15224a";
 
     protected GodzillaV2Decryptor DECRYPTOR = WebshellDecryptorFacade.godzillaV2(getDecryptorType());
@@ -43,7 +42,7 @@ public abstract class BaseDecryptorTest {
 
         String input = readData(inputPath);
         String expected = readData(resultPath);
-        String response = DECRYPTOR.decryptRequest(input, PASSWORD, KEY);
+        String response = DECRYPTOR.decryptRequest(input, KEY);
         assertEquals(expected, response);
     }
 
@@ -58,7 +57,7 @@ public abstract class BaseDecryptorTest {
 
         String input = readData(inputPath);
         String expected = readData(resultPath);
-        String response = DECRYPTOR.decryptResponse(input, PASSWORD, KEY);
+        String response = DECRYPTOR.decryptResponse(input, KEY);
         assertEquals(expected, response);
     }
 }

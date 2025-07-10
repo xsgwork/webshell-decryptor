@@ -8,11 +8,11 @@ import io.github.xsgwork.decryptor.util.StringExtractUtil;
 public class CShapEvalAesBase64Decryptor extends AbstractBase64Decryptor {
 
     @Override
-    public String decryptRequest(String encryptedData, String password, String key) {
+    public String decryptRequest(String data, String key) {
         try {
-            String encodedData = extractRequestData(encryptedData);
+            String requestData = extractRequestData(data);
             // url解码
-            String urlDecodedData = DecodeUtil.urlDecode(encodedData);
+            String urlDecodedData = DecodeUtil.urlDecode(requestData);
             // 提取关键信息
             String extractedData = StringExtractUtil.extractContent(urlDecodedData, "HttpUtility.UrlDecode('", "')))");
             if (StrUtil.isBlank(extractedData)) {
@@ -26,12 +26,12 @@ public class CShapEvalAesBase64Decryptor extends AbstractBase64Decryptor {
     }
 
     @Override
-    protected byte[] doDecryptRequest(byte[] encryptedData, String password, String key) {
-        return encryptedData;
+    protected byte[] doDecryptRequest(byte[] data, String key) {
+        return data;
     }
 
     @Override
-    protected byte[] doDecryptResponse(byte[] encryptedData, String password, String key) {
-        return DecodeUtil.aesCbcDecrypt(encryptedData, key, key);
+    protected byte[] doDecryptResponse(byte[] data, String key) {
+        return DecodeUtil.aesCbcDecrypt(data, key, key);
     }
 }
