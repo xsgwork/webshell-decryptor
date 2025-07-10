@@ -1,5 +1,7 @@
 package io.github.xsgwork.decryptor;
 
+import io.github.xsgwork.decryptor.antsword.AntSwordDecryptorType;
+import io.github.xsgwork.decryptor.antsword.core.base.AntSwordDecryptor;
 import io.github.xsgwork.decryptor.behinder.v1.core.base.BehinderV1Decryptor;
 import io.github.xsgwork.decryptor.behinder.v1.BehinderV1DecryptorType;
 import io.github.xsgwork.decryptor.behinder.v2.core.base.BehinderV2Decryptor;
@@ -41,5 +43,12 @@ public class WebshellDecryptorFacade {
      */
     public static BehinderV2Decryptor behinderV2(BehinderV2DecryptorType type) {
         return BehinderV2DecryptorType.getDecryptor(type);
+    }
+
+    /**
+     * 蚁剑流量解密
+     */
+    public static AntSwordDecryptor antsword(AntSwordDecryptorType type) {
+        return AntSwordDecryptorType.getDecryptor(type);
     }
 }
