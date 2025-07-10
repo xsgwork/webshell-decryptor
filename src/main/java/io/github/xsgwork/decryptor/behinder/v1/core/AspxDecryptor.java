@@ -10,10 +10,10 @@ import java.nio.charset.StandardCharsets;
 public class AspxDecryptor implements BehinderV1Decryptor {
 
     @Override
-    public String decrypt(String encryptedData, String key) {
+    public String decrypt(String data, String key) {
         try {
             // 十六进制解码：将十六进制字符串转换为字节数组
-            byte[] decodeHexBytes = HexUtil.decodeHex(encryptedData);
+            byte[] decodeHexBytes = HexUtil.decodeHex(data);
             // aes cbc解密，iv与key相同
             byte[] decryptedBytes = DecodeUtil.aesCbcDecrypt(decodeHexBytes, key, key);
             String result = new String(decryptedBytes, StandardCharsets.UTF_8);

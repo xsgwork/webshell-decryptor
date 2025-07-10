@@ -1,5 +1,6 @@
 package io.github.xsgwork.decryptor.behinder.v1.core;
 
+import cn.hutool.core.util.HexUtil;
 import io.github.xsgwork.decryptor.behinder.v1.core.base.BehinderV1Decryptor;
 import io.github.xsgwork.decryptor.util.BehinderResultUtil;
 import io.github.xsgwork.decryptor.util.DecodeUtil;
@@ -10,10 +11,14 @@ import java.nio.charset.StandardCharsets;
 public class PhpDecryptor implements BehinderV1Decryptor {
 
     @Override
-    public String decrypt(String encryptedData, String key) {
+    public String decrypt(String data, String key) {
         try {
+            // 先判断数据是否为16进制
+            if (HexUtil.isHexNumber(data)) {
+                data = HexUtil.decodeHexStr(data);
+            }
             // Base64解码
-            byte[] base64DecodedData = DecodeUtil.base64Decode(encryptedData);
+            byte[] base64DecodedData = DecodeUtil.base64Decode(data);
             // aes cbc解密，默认的IV值（固定值）为16个0x00
             byte[] decryptedBytes = DecodeUtil.aesCbcDecrypt(base64DecodedData, key, new String(new byte[16]));
             String result = new String(decryptedBytes, StandardCharsets.UTF_8);

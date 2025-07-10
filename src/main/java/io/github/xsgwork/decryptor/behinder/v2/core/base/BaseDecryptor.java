@@ -9,9 +9,9 @@ import java.nio.charset.StandardCharsets;
 public abstract class BaseDecryptor implements BehinderV2Decryptor {
 
     @Override
-    public String decrypt(String encryptedData, String key) {
+    public String decrypt(String data, String key) {
         try {
-            byte[] decryptedBytes = doDecrypt(encryptedData, key);
+            byte[] decryptedBytes = doDecrypt(data, key);
             // Java字节码处理
             if (ByteTypeUtil.isJavaClassFile(decryptedBytes)) {
                 return JavaDecompileUtil.decompileBytes(decryptedBytes);
